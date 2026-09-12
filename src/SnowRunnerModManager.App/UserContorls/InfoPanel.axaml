@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:SnowRunnerModManager.App.UserContorls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SnowRunnerModManager.App.UserContorls.InfoPanel"
+             xmlns:vm="using:SnowRunnerModManager.App.ViewModels">    
+    <StackPanel Orientation="Vertical">
+        <ItemsControl x:DataType="vm:MessageViewModel" ItemsSource="{Binding Messages}">
+            <ItemsControl.DataContext>
+                <vm:MessageViewModel/>
+            </ItemsControl.DataContext>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Margin="5" Text="{Binding Message}" Foreground="{Binding BrushColor}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
+        <ItemsControl x:DataType="vm:ProgressViewModel" ItemsSource="{Binding ProgressOperations}">
+            <ItemsControl.DataContext>
+                <vm:ProgressViewModel/>
+            </ItemsControl.DataContext>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,200" Margin="5">
+                        
+                        <TextBlock Text="{Binding Message, StringFormat='{}{0}:'}" Grid.Column="0" TextWrapping="NoWrap"/>
+                        
+                        <ProgressBar
+                            Grid.Column="1"
+                            Minimum="0"
+                            Maximum="100"
+                            Value="{Binding Value}"
+                            IsIndeterminate="{Binding IsIndeteterminate}"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

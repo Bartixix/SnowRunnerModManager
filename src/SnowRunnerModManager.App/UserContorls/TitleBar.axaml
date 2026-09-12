@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="32"
+             x:Class="SnowRunnerModManager.App.UserContorls.TitleBar"
+             Foreground="#fff"
+             Height="32"> 
+    <Border WindowDecorationProperties.ElementRole="TitleBar" Background="{StaticResource NavigationColor}">
+        <DockPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
+                <Menu WindowDecorationProperties.ElementRole="User">
+                    <MenuItem Header="File">
+                        <MenuItem Header="New Project"/>
+                        <MenuItem Header="Load Project"/>
+                        <Separator/>
+                    </MenuItem>
+                    <MenuItem Header="Edit">
+                        <MenuItem Header="Add">
+                            <MenuItem Header="New Engine"/>
+                            <MenuItem Header="New Gearbox"/>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="Build">
+                        <MenuItem Header="Build and Deploy"/>
+                        <MenuItem Header="Build"/>
+                        <MenuItem Header="Build and Export"/>
+                    </MenuItem>
+                    <MenuItem Header="Test">
+                        <MenuItem Header="TestMessage" Click="TestMessage"/>
+                        <MenuItem Header="TestProgress 0" Click="TestProgress0"/>
+                        <MenuItem Header="TestProgress 30" Click="TestProgress30"/>
+                        <MenuItem Header="TestProgress 100" Click="TestProgress100"/>
+                        <MenuItem Header="TestProgress F" Click="TestProgressF"/>
+                        <MenuItem Header="TestSteamPath" Click="TestSteamPath"/>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Button WindowDecorationProperties.ElementRole="MinimizeButton" Click="OnMinimize">
+                    <Image Source="../img/minimize-48.png"/>
+                </Button>
+                <Button WindowDecorationProperties.ElementRole="MaximizeButton" Click="OnMinimize" >
+                    <Image Source="../img/layers-52.png"/>
+                </Button>
+                <Button WindowDecorationProperties.ElementRole="CloseButton" Click="OnMinimize">
+                    <Image Source="../img/close-48.png"/>
+                </Button>
+            </StackPanel>-->
+        </DockPanel>
+    </Border>
+</UserControl>

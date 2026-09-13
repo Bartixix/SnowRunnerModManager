@@ -8,5 +8,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/SnowRunnerModManager.RuntimeTests/SnowRunnerModManager.RuntimeTests.csproj" Id="2215feb6-558a-4007-a876-7e67cf28d90f" />
+    <Project Path="tests/SnowRunnerModManager.Tests/SnowRunnerModManager.Tests.csproj" Id="1f5f0fdd-ee83-4064-bc71-0e6aa883d556" />
   </Folder>
 </Solution>

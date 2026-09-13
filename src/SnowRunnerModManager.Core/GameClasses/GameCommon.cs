@@ -13,11 +13,11 @@ namespace SnowRunnerModManager.Core.GameClasses
 
         public string Name { get; set; }
 
-        [EditorField("Price")]
+        [EditorField("Price", -3)]
         public int Price { get; set; }
-        [EditorField("Unlocked by exploration")]
+        [EditorField("Unlocked by exploration", -2)]
         public bool UnlockedByExploration { get; set; }
-        [EditorField("Unlocked by rank")]
+        [EditorField("Unlocked by rank", -1)]
         public int UnlockByRank { get; set; }
 
     }

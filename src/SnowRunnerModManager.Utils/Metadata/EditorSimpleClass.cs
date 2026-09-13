@@ -4,7 +4,6 @@ using System.Text;
 
 namespace SnowRunnerModManager.Utils.Metadata
 {
-    internal class EditorSource
-    {
-    }
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property)]
+    public class EditorSimpleClass : Attribute;
 }

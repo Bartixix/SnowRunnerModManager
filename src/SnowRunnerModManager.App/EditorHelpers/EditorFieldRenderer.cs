@@ -1,26 +1,39 @@
-﻿using SnowRunnerModManager.Core.GameClasses;
+﻿using SnowRunnerModManager.App.CustomContorls;
+using SnowRunnerModManager.App.EditorUserControls;
+using SnowRunnerModManager.App.Windows;
+using SnowRunnerModManager.Core.GameClasses;
+using SnowRunnerModManager.Utils.Metadata;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace SnowRunnerModManager.App.EditorHelpers
 {
-    public partial class EditorFieldRenderer<T> where T : GameCommon
+    public partial class EditorFieldRenderer<T> where T : notnull
     {
         private readonly T _target;
-        private readonly StackPanel _panel;
+        //private readonly StackPanel _panel;
 
-        public EditorFieldRenderer(T target, StackPanel panel)
+        public static Type GameObjectType { get; } = typeof(T);
+
+        public EditorFieldRenderer(T target/*, StackPanel panel*/)
         {
             _target = target;
-            _panel = panel;
+            //_panel = panel;
 
             Render();
         }
 
         private void Render()
         {
+            List<Control> controls = EditorFieldHelper.GetControls(_target, 0);
 
+            Editor editor = new();
+            editor.EditorFieldsPanel.Children.AddRange(controls);
+
+            editor.ShowDialog(MainWindow.MWindow);
         }
     }
 }

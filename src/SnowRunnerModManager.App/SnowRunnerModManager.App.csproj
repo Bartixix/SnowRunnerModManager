@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>SnowRunnerModManager.App</RootNamespace>
     <OutputType>WinExe</OutputType>
@@ -6,16 +6,6 @@
     <Nullable>enable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="img\close-48.png" />
-    <None Remove="img\layers-52.png" />
-    <None Remove="img\minimize-48.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AvaloniaResource Include="img\close-48.png" />
-    <AvaloniaResource Include="img\layers-52.png" />
-    <AvaloniaResource Include="img\minimize-48.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="12.1.2" />
@@ -30,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\tests\SnowRunnerModManager.RuntimeTests\SnowRunnerModManager.RuntimeTests.csproj" />
     <ProjectReference Include="..\SnowRunnerModManager.Core\SnowRunnerModManager.Core.csproj" />
     <ProjectReference Include="..\SnowRunnerModManager.Infrastructure\SnowRunnerModManager.Infrastructure.csproj" />
     <ProjectReference Include="..\SnowRunnerModManager.Utils\SnowRunnerModManager.Utils.csproj" />

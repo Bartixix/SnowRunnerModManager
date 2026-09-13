@@ -7,13 +7,13 @@ namespace SnowRunnerModManager.Core.GameClasses
 {
     public class Wheel : GameCommon
     {
-        [EditorField("Asphalt")]
+        [EditorField("Asphalt", 0)]
         public double BodyFrictionAsphalt { get; set; }
-        [EditorField("Offroad")]
+        [EditorField("Offroad", 1)]
         public double BodyFriction { get; set; }
-        [EditorField("Mud")]
+        [EditorField("Mud", 2)]
         public double SubstanceFriction { get; set; }
-        [EditorField("Chains")]
+        [EditorField("Chains", 3)]
         public bool IsIgnoreIce { get; set; }
 
 

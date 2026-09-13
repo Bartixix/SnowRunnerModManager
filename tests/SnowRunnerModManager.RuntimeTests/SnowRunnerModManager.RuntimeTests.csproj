@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SnowRunnerModManager.Core\SnowRunnerModManager.Core.csproj" />
+    <ProjectReference Include="..\..\src\SnowRunnerModManager.Infrastructure\SnowRunnerModManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\SnowRunnerModManager.Pak\SnowRunnerModManager.Pak.csproj" />
+    <ProjectReference Include="..\..\src\SnowRunnerModManager.Utils\SnowRunnerModManager.Utils.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -2,7 +2,10 @@
 
 using Avalonia.Controls.Chrome;
 using Avalonia.Interactivity;
+using SnowRunnerModManager.App.EditorHelpers;
+using SnowRunnerModManager.Core.Projects;
 using SnowRunnerModManager.Infrastructure.Helpers;
+using SnowRunnerModManager.RuntimeTests.Renderer;
 using SnowRunnerModManager.Utils.Events;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -77,6 +80,14 @@ namespace SnowRunnerModManager.App.UserContorls
             }
 
             AppEvents.RaiseMessage(this, new(path, MessageEventArgs.MessageSeverity.Info));
+        }
+
+        private async void TestRendererfc(object? sender, RoutedEventArgs e)
+        {
+            Project p = await Project.Create("", "", "");
+            RendererTestClass rtc = new("defstr", -1, -0.1, RendererTestClass.TestEnum.A, false, true, new("defstrnest", -2));
+
+            EditorFieldRenderer<RendererTestClass> efr = new(rtc);
         }
     }
 }

@@ -3,7 +3,10 @@
     <Project Path="src/SnowRunnerModManager.App/SnowRunnerModManager.App.csproj" Id="dd088e83-e64f-4ef8-8d56-8c3b78cc20f6" />
     <Project Path="src/SnowRunnerModManager.Core/SnowRunnerModManager.Core.csproj" Id="49eb22e3-f1c5-41ed-9f17-11973b9b79f7" />
     <Project Path="src/SnowRunnerModManager.Infrastructure/SnowRunnerModManager.Infrastructure.csproj" Id="3317623c-8b10-414b-b805-2bab36471aaa" />
-    <Project Path="src/SnowRunnerModManager.Utils/SnowRunnerModManager.Utils.csproj" Id="b85509ae-1be3-4825-8b2f-e9fea1f5fbac" />
     <Project Path="src/SnowRunnerModManager.Pak/SnowRunnerModManager.Pak.csproj" Id="0815d617-3c30-4fb2-aa16-df03a5bedde4" />
+    <Project Path="src/SnowRunnerModManager.Utils/SnowRunnerModManager.Utils.csproj" Id="b85509ae-1be3-4825-8b2f-e9fea1f5fbac" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SnowRunnerModManager.RuntimeTests/SnowRunnerModManager.RuntimeTests.csproj" Id="2215feb6-558a-4007-a876-7e67cf28d90f" />
   </Folder>
 </Solution>

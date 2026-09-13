@@ -10,11 +10,27 @@ namespace SnowRunnerModManager.Core.Projects
 {
     public class Project
     {
+        [MemberNotNullWhen(true, nameof(_currentProject))]
+        public static bool Initiated { get; private set; }
+        private static Project? _currentProject;
+        public static Project CurrentProject
+        {
+            get
+            {
+                if (!Initiated)
+                    throw new InvalidOperationException();
+                return _currentProject;
+            }
+            private set
+            {
+                Initiated = value != null;
+                _currentProject = value;
+            }
+        }
+
         public string Name { get; }
         public string RootFolder { get; }
         public string GameFolder { get; }
-
-        public static Project? CurrentProject { get; private set; }
 
         public GroupRegistry<Engine> Engines { get; } = new();
         public GroupRegistry<Gearbox> Gearboxes { get; } = new();

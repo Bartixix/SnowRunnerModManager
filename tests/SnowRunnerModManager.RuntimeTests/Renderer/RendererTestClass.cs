@@ -1,10 +1,11 @@
-﻿using SnowRunnerModManager.Utils.Metadata;
+﻿using SnowRunnerModManager.Core.Projects;
+using SnowRunnerModManager.Utils.Metadata;
 
 namespace SnowRunnerModManager.RuntimeTests.Renderer
 {
     public class RendererTestClass
     {
-        public RendererTestClass(string testStr, int testInt, double testDouble, TestEnum testEnumF, bool testBoolFalse, bool testBoolTrue, RendererNestedClass nestedClass)
+        public RendererTestClass(string testStr, int testInt, double testDouble, TestEnum testEnumF, bool testBoolFalse, bool testBoolTrue, RendererNestedClass nestedClass, List<string> testStringBindingMulti, List<string> testStringBindingSingle)
         {
             TestStr = testStr;
             TestInt = testInt;
@@ -13,6 +14,8 @@ namespace SnowRunnerModManager.RuntimeTests.Renderer
             TestBoolFalse = testBoolFalse;
             TestBoolTrue = testBoolTrue;
             NestedClass = nestedClass;
+            TestStringBindingMulti = testStringBindingMulti;
+            TestStringBindingSingle = testStringBindingSingle;
         }
 
         public enum TestEnum
@@ -41,5 +44,11 @@ namespace SnowRunnerModManager.RuntimeTests.Renderer
         [EditorField("Test nested class", 5)]
         [EditorSimpleClass]
         public RendererNestedClass NestedClass { get; set; }
+
+        [EditorBinding("Test binding multi", 7, nameof(ActiveProject.TestRegistry), true)]
+        public List<string> TestStringBindingMulti { get; set; }
+
+        [EditorBinding("Test binding single", 8, nameof(ActiveProject.TestRegistry), false)]
+        public List<string> TestStringBindingSingle { get; set; }
     }
 }

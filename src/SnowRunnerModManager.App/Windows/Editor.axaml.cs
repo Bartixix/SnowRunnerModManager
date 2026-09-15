@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using SnowRunnerModManager.App.CustomContorls;
 
 namespace SnowRunnerModManager.App.Windows
 {
@@ -11,6 +13,19 @@ namespace SnowRunnerModManager.App.Windows
         public Editor()
         {
             InitializeComponent();
+        }
+
+        private void SaveFields(object sender, RoutedEventArgs e)
+        {
+            foreach (Control control in EditorFieldsPanel.Children)
+            {
+                if (control is not EditorUserControl editorUserControl)
+                    continue;
+
+                editorUserControl.Save();
+            }
+
+            Close();
         }
     }
 }

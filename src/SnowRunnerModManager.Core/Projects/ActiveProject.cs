@@ -15,5 +15,20 @@ namespace SnowRunnerModManager.Core.Projects
         public static GroupRegistry<Wheel> Wheels { get { return Project.CurrentProject.Wheels; } }
         public static Registry<Truck> Trucks { get { return Project.CurrentProject.Trucks; } }
         public static Registry<Wheel> WheelTemplates { get { return Project.CurrentProject.WheelTemplates; } }
+
+
+#if DEBUG
+        [EditorSource]
+        public static Registry<Wheel> TestRegistry { get; } = new Func<Registry<Wheel>>(() =>
+        {
+            Registry<Wheel> reg = new();
+
+            reg.Add(new() { Name = "t1" });
+            reg.Add(new() { Name = "t2" });
+            reg.Add(new() { Name = "t3" });
+
+            return reg; ;
+        })();
+#endif
     }
 }

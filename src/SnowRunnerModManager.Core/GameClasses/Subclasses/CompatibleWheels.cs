@@ -11,6 +11,6 @@ namespace SnowRunnerModManager.Core.GameClasses.Subclasses
         [EditorField("Rear Z offset", 1)]
         public double RearOffsetZ { get; set; }
         [EditorBinding("Wheels", 2, nameof(ActiveProject.Wheels))]
-        public Wheel Wheel { get; set; }
+        public string Wheel { get; set; }
     }
 }

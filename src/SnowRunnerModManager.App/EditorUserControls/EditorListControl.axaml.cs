@@ -15,5 +15,7 @@ namespace SnowRunnerModManager.App.EditorUserControls
         {
             InitializeComponent();
         }
+
+        public override void Save() => throw new NotImplementedException();
     }
 }

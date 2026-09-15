@@ -33,6 +33,7 @@
                         <MenuItem Header="TestProgress 100" Click="TestProgress100"/>
                         <MenuItem Header="TestProgress F" Click="TestProgressF"/>
                         <MenuItem Header="TestRendererfc" Click="TestRendererfc"/>
+                        <MenuItem Header="TestRendererSecond" Click="TestRendererSecond"/>
                         <MenuItem Header="TestSteamPath" Click="TestSteamPath"/>
                     </MenuItem>
                 </Menu>

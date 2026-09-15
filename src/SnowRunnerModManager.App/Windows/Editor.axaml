@@ -11,5 +11,6 @@
       <StackPanel x:Name="EditorFieldsPanel">
           
       </StackPanel>
+      <Button Content="Save" Click="SaveFields"/>
   </StackPanel>
 </Window>

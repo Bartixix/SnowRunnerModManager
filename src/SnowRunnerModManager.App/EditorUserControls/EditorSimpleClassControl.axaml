@@ -6,8 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SnowRunnerModManager.App.EditorUserControls.EditorSimpleClassControl"
              x:DataType="local:EditorSimpleClassControl">
-    <StackPanel>
-        <TextBlock Text="{Binding FieldName}"/>
+    <StackPanel Spacing="5">
+        <TextBlock x:Name="InputHeader"/>
         
         <StackPanel x:Name="MainPanel" Grid.Column="1">
                 

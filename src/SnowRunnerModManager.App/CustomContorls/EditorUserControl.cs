@@ -5,12 +5,17 @@ using System.Text;
 
 namespace SnowRunnerModManager.App.CustomContorls
 {
-    public class EditorUserControl : UserControl
+    public abstract class EditorUserControl : UserControl
     {
         public required string FieldName { get; init; }
         public int Order { get; init; } = -1;
         public required PropertyInfo Parameter { get; init; }
 
         public required object Target { protected get; init; }
+        public Control? MainControl { get; protected set; }
+
+        public int Depth { get; init; } = 0;
+
+        public abstract void Save();
     }
 }

@@ -11,18 +11,30 @@ namespace SnowRunnerModManager.App.EditorUserControls
 {
     public partial class EditorSimpleClassControl : EditorUserControl
     {
-        public int Depth { get; init; } = 0;
-
         public EditorSimpleClassControl()
         {
             InitializeComponent();
 
-            Loaded += SetupFields;
+            Initialized += SetupFields;
         }
 
-        private void SetupFields(object? sender, RoutedEventArgs e)
+        public override void Save()
         {
-            List<Control> controls = EditorFieldHelper.GetControls(Target, Depth);
+            foreach (Control control in MainPanel.Children)
+            {
+                if (control is not EditorUserControl editorUserControl)
+                    continue;
+
+                editorUserControl.Save();
+            }
+        }
+
+        private void SetupFields(object? sender, EventArgs e)
+        {
+            InputHeader.Text = $"{FieldName}:";
+
+            object obj = Parameter.GetValue(Target)!;
+            List<Control> controls = EditorFieldHelper.GetControls(obj, Depth);
 
             MainPanel.Children.AddRange(controls);
         }

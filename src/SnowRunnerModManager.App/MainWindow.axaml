@@ -24,7 +24,6 @@
 
             <UserContorls:SideBar Grid.Column="0"/>
             <GridSplitter ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" Grid.Column="1" MinWidth="3" Width="3" Background="{StaticResource SeparatorColor}"/>
-
         </Grid>
     </Grid>
 </Window>

@@ -82,12 +82,17 @@ namespace SnowRunnerModManager.App.UserContorls
             AppEvents.RaiseMessage(this, new(path, MessageEventArgs.MessageSeverity.Info));
         }
 
+        RendererTestClass rtc = new("defstr", -1, -0.1, RendererTestClass.TestEnum.A, false, true, new("defstrnest", -2), ["t1", "t3"], ["t2"]);
         private async void TestRendererfc(object? sender, RoutedEventArgs e)
         {
             Project p = await Project.Create("", "", "");
-            RendererTestClass rtc = new("defstr", -1, -0.1, RendererTestClass.TestEnum.A, false, true, new("defstrnest", -2));
 
             EditorFieldRenderer<RendererTestClass> efr = new(rtc);
+        }
+
+        private async void TestRendererSecond(object? sender, RoutedEventArgs e)
+        {
+            EditorFieldRenderer<RendererTestClass> eft = new(rtc);
         }
     }
 }

@@ -18,10 +18,12 @@ namespace SnowRunnerModManager.App.EditorHelpers
 
         public static Type GameObjectType { get; } = typeof(T);
 
-        public EditorFieldRenderer(T target/*, StackPanel panel*/)
+        private Editor RenderedEditor { get; }
+
+        public EditorFieldRenderer(T target)
         {
             _target = target;
-            //_panel = panel;
+            RenderedEditor = new();
 
             Render();
         }
@@ -29,11 +31,9 @@ namespace SnowRunnerModManager.App.EditorHelpers
         private void Render()
         {
             List<Control> controls = EditorFieldHelper.GetControls(_target, 0);
+            RenderedEditor.EditorFieldsPanel.Children.AddRange(controls);
 
-            Editor editor = new();
-            editor.EditorFieldsPanel.Children.AddRange(controls);
-
-            editor.ShowDialog(MainWindow.MWindow);
+            RenderedEditor.ShowDialog(MainWindow.MWindow);
         }
     }
 }

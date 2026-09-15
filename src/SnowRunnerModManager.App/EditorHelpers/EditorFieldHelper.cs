@@ -2,16 +2,13 @@
 using SnowRunnerModManager.App.EditorUserControls;
 using SnowRunnerModManager.App.Windows;
 using SnowRunnerModManager.Core.Classes;
-using SnowRunnerModManager.Core.GameClasses;
 using SnowRunnerModManager.Core.Helpers;
 using SnowRunnerModManager.Core.Projects;
-using SnowRunnerModManager.Utils.Events;
 using SnowRunnerModManager.Utils.Metadata;
-using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace SnowRunnerModManager.App.EditorHelpers
 {
@@ -49,7 +46,51 @@ namespace SnowRunnerModManager.App.EditorHelpers
         private static bool IsBool(Type type) => type == typeof(bool);
         private static bool IsEnum(Type type) => type.IsEnum;
 
+        public static bool GetSimpleControlValue(Control control, Type type, [NotNullWhen(true)] out object? value)
+        {
+            value = null;
 
+            if (control is NumericUpDown numericUpDown)
+            {
+                decimal userValue = numericUpDown.Value ?? 0;
+
+                if (type == typeof(double))
+                {
+                    value = (double)userValue;
+                    return true;
+                }
+
+                if (type == typeof(int))
+                {
+                    value = decimal.ToInt32(userValue);
+                    return true;
+                }
+
+                return false;
+            }
+
+            if (control is TextBox textBox)
+            {
+                value = textBox.Text ?? string.Empty;
+                return true;
+            }
+
+            if (control is CheckBox checkBox)
+            {
+                value = checkBox.IsChecked ?? false;
+                return true;
+            }
+
+            if (control is ComboBox comboBox)
+            {
+                if (Enum.TryParse(type, (string)comboBox.SelectedValue!, true, out value))
+                    return true;
+                return false;
+            }
+
+
+            return false;
+        }
 
         public static Dictionary<PropertyInfo, T> GetEditorProperties<T>(Type t, HashSet<string> ignoredProperties) where T : EditorMetadata
         {
@@ -78,7 +119,7 @@ namespace SnowRunnerModManager.App.EditorHelpers
                         Order = parameter.Value.Order,
                         Parameter = parameter.Key,
 
-                        Target = parameter.Key.GetValue(target)!,
+                        Target = target,
                         Depth = depth + 1,
                     });
                     continue;
@@ -90,15 +131,15 @@ namespace SnowRunnerModManager.App.EditorHelpers
                     Order = parameter.Value.Order,
                     Parameter = parameter.Key,
 
-                    Target = parameter.Key.GetValue(target)!,
-                    MarginLeft = depth * Editor.MarginPerDepth
+                    Target = target,
+                    Depth = depth
                 });
             }
 
             return result;
         }
 
-        public static List<EditorUserControl> GetListControls(Dictionary<PropertyInfo, EditorList> parameters, object target)
+        public static List<EditorUserControl> GetListControls(Dictionary<PropertyInfo, EditorList> parameters, object target, int depth)
         {
             List<EditorUserControl> result = [];
 
@@ -114,14 +155,15 @@ namespace SnowRunnerModManager.App.EditorHelpers
                     AllowReorder = parameter.Value.AllowReorder,
                     AllowRemove = parameter.Value.AllowRemove,
 
-                    Target = parameter.Key.GetValue(target)!,
+                    Target = target,
+                    Depth = depth
                 });
             }
 
             return result;
         }
 
-        public static List<EditorUserControl> GetBindingControls(Dictionary<PropertyInfo, EditorBinding> parameters, object target)
+        public static List<EditorUserControl> GetBindingControls(Dictionary<PropertyInfo, EditorBinding> parameters, object target, int depth)
         {
             List<EditorUserControl> result = [];
 
@@ -141,8 +183,10 @@ namespace SnowRunnerModManager.App.EditorHelpers
                     Parameter = parameter.Key,
 
                     BoundRegistry = registry,
+                    MultiChoice = parameter.Value.MultiChoice,
 
-                    Target = parameter.Key.GetValue(target)!,
+                    Target = target,
+                    Depth = depth
                 });
             }
 
@@ -161,8 +205,8 @@ namespace SnowRunnerModManager.App.EditorHelpers
 
             List<EditorUserControl> controls = [];
             controls.AddRange(GetFieldControls(editorFields, target, depth));
-            controls.AddRange(GetListControls(editorLists, target));
-            controls.AddRange(GetBindingControls(editorBindings, target));
+            controls.AddRange(GetListControls(editorLists, target, depth));
+            controls.AddRange(GetBindingControls(editorBindings, target, depth));
 
             return [.. controls.OrderBy(uc => uc.Order)];
         }

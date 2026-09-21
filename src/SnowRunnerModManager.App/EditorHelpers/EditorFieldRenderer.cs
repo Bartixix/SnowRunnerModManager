@@ -2,38 +2,46 @@
 using SnowRunnerModManager.App.EditorUserControls;
 using SnowRunnerModManager.App.Windows;
 using SnowRunnerModManager.Core.GameClasses;
+using SnowRunnerModManager.Core.Helpers;
 using SnowRunnerModManager.Utils.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SnowRunnerModManager.App.EditorHelpers
 {
-    public partial class EditorFieldRenderer<T> where T : notnull
+    public class EditorFieldRenderer<T>(T target) where T : class
     {
-        private readonly T _target;
+        private readonly T _target = target;
         //private readonly StackPanel _panel;
 
         public static Type GameObjectType { get; } = typeof(T);
 
-        private Editor RenderedEditor { get; }
+        private Editor RenderedEditor { get; } = new();
 
-        public EditorFieldRenderer(T target)
+        public bool Rendered { get; private set; } = false;
+
+        public async Task<T> Render()
         {
-            _target = target;
-            RenderedEditor = new();
+            if (Rendered)
+                throw new InvalidOperationException();
 
-            Render();
-        }
+            Rendered = true;
 
-        private void Render()
-        {
-            List<Control> controls = EditorFieldHelper.GetControls(_target, 0);
+            T temp = ObjectHelper.Clone(_target);
+
+            List<Control> controls = EditorFieldHelper.GetControls(temp, 0);
             RenderedEditor.EditorFieldsPanel.Children.AddRange(controls);
 
-            RenderedEditor.ShowDialog(MainWindow.MWindow);
+            await RenderedEditor.ShowDialog(MainWindow.MWindow);
+
+            if (RenderedEditor.IsSaved)
+                return temp;
+
+            return _target;
         }
     }
 }

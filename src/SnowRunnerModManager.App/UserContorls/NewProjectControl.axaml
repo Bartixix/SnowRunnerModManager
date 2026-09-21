@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SnowRunnerModManager.App.UserContorls.NewProjectControl">
+  <Grid>
+      <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="300" MinWidth="300"/>
+          <ColumnDefinition Width="*" MinWidth="300"/>
+          <ColumnDefinition Width="50" MinWidth="50"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock x:Name="MainText" Grid.Column="0"/>
+      <TextBox x:Name="MainBox" Grid.Column="1"/>
+      <Button x:Name="MainBtn" Grid.Column="2" Content="Pick" Click="Pick"/> 
+  </Grid>
+</UserControl>

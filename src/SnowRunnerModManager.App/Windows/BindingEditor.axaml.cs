@@ -106,6 +106,8 @@ namespace SnowRunnerModManager.App.Windows
                         Enabled.Remove(BindingControls[i].MainText.Text!);
                 }
             }
+
+            Close();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace SnowRunnerModManager.Core.Projects
         public static Registry<Wheel> WheelTemplates { get { return Project.CurrentProject.WheelTemplates; } }
 
 
-#if DEBUG
+
         [EditorSource]
         public static Registry<Wheel> TestRegistry { get; } = new Func<Registry<Wheel>>(() =>
         {
@@ -29,6 +29,6 @@ namespace SnowRunnerModManager.Core.Projects
 
             return reg; ;
         })();
-#endif
+
     }
 }

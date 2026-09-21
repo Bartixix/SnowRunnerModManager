@@ -9,8 +9,10 @@ using System.Collections.Generic;
 
 namespace SnowRunnerModManager.App.EditorUserControls
 {
-    public partial class EditorSimpleClassControl : EditorUserControl
+    public partial class EditorSimpleClassControl : EditorUserControl, ITopLevelSavable
     {
+        public bool ListItemOverride { get; init; } = false;
+
         public EditorSimpleClassControl()
         {
             InitializeComponent();
@@ -18,11 +20,11 @@ namespace SnowRunnerModManager.App.EditorUserControls
             Initialized += SetupFields;
         }
 
-        public override void Save()
+        public void Save()
         {
             foreach (Control control in MainPanel.Children)
             {
-                if (control is not EditorUserControl editorUserControl)
+                if (control is not ITopLevelSavable editorUserControl)
                     continue;
 
                 editorUserControl.Save();
@@ -33,7 +35,8 @@ namespace SnowRunnerModManager.App.EditorUserControls
         {
             InputHeader.Text = $"{FieldName}:";
 
-            object obj = Parameter.GetValue(Target)!;
+            object obj = ListItemOverride ? Target : Parameter.GetValue(Target)!;
+
             List<Control> controls = EditorFieldHelper.GetControls(obj, Depth);
 
             MainPanel.Children.AddRange(controls);

@@ -19,8 +19,8 @@ namespace SnowRunnerModManager.App.EditorUserControls
 
         private string DisplayString { get; set; } = string.Empty;
         private List<string> Enabled { get; set; } = [];
-        private TextBox? _mainBox;
-        private TextBox MainBox { get { return _mainBox!; } }
+        //private Butt? _mainBox;
+        //private TextBox MainBox { get { return _mainBox!; } }
 
         public EditorBindingControl()
         {
@@ -29,41 +29,50 @@ namespace SnowRunnerModManager.App.EditorUserControls
             Initialized += SetupField;
         }
 
-        public override void Save() => Parameter.SetValue(Target, Enabled);
-
         private void SetupField(object? sender, EventArgs e)
         {
             Enabled = (List<string>)Parameter.GetValue(Target)!;
             DisplayString = GetRegString(Enabled);
 
-            PropertyInfo displayStringInfo = typeof(EditorBindingControl).GetProperty(nameof(DisplayString), BindingFlags.NonPublic | BindingFlags.Instance)!;
+            SetupGrid();
 
-            EditorFieldControl editorFieldControl = new()
-            {
-                FieldName = FieldName,
-                Parameter = displayStringInfo,
-                Target = this,
-                Depth = Depth,
-            };
-
-            editorFieldControl.Initialized += OnBoxInit;
-
-            MainPanel.Children.Add(editorFieldControl);
-
-            MainControl = editorFieldControl;
+            MainText.Text = FieldName;
+            MainBtn.Content = $"Edit ({DisplayString})";
         }
 
-        private void OnBoxInit(object? sender, EventArgs e)
-        {
-            if (MainControl is not EditorFieldControl efc || efc.MainControl is not TextBox mainBox)
-                throw new Exception();
+        //private void SetupField(object? sender, EventArgs e)
+        //{
+        //    Enabled = (List<string>)Parameter.GetValue(Target)!;
+        //    DisplayString = GetRegString(Enabled);
 
-            _mainBox = mainBox;
+        //    PropertyInfo displayStringInfo = typeof(EditorBindingControl).GetProperty(nameof(DisplayString), BindingFlags.NonPublic | BindingFlags.Instance)!;
 
-            MainBox.IsReadOnly = true;
-            MainBox.DoubleTapped += OpenBindingEditor;
-            MainBox.Text = DisplayString;
-        }
+        //    EditorFieldControl editorFieldControl = new()
+        //    {
+        //        FieldName = FieldName,
+        //        Parameter = displayStringInfo,
+        //        Target = this,
+        //        Depth = Depth,
+        //    };
+
+        //    editorFieldControl.Initialized += OnBoxInit;
+
+        //    MainPanel.Children.Add(editorFieldControl);
+
+        //    MainControl = editorFieldControl;
+        //}
+
+        //private void OnBoxInit(object? sender, EventArgs e)
+        //{
+        //    if (MainControl is not EditorFieldControl efc || efc.MainControl is not TextBox mainBox)
+        //        throw new Exception();
+
+        //    _mainBox = mainBox;
+
+        //    MainBox.IsReadOnly = true;
+        //    MainBox.DoubleTapped += OpenBindingEditor;
+        //    MainBox.Text = DisplayString;
+        //}
 
         private async void OpenBindingEditor(object? sender, RoutedEventArgs e)
         {
@@ -73,10 +82,18 @@ namespace SnowRunnerModManager.App.EditorUserControls
             await editor.ShowDialog(window);
 
             DisplayString = GetRegString(Enabled);
-            MainBox.Text = DisplayString;
+            MainBtn.Content = $"Edit ({DisplayString})";
         }
 
         private static string GetRegString(ICollection<string> regCollection) => string.Join(", ", regCollection);
 
+        private void SetupGrid()
+        {
+            int marginLeft = Depth * Editor.MarginPerDepth;
+
+            MainGrid.ColumnDefinitions.Add(new() { Width = new(marginLeft), MinWidth = marginLeft, MaxWidth = marginLeft });
+            MainGrid.ColumnDefinitions.Add(new() { Width = new(300 - marginLeft), MinWidth = 300 - marginLeft, MaxWidth = 300 - marginLeft });
+            MainGrid.ColumnDefinitions.Add(new() { Width = GridLength.Star, MinWidth = 300 });
+        }
     }
 }

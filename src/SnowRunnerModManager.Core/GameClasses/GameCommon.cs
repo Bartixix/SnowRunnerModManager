@@ -2,13 +2,17 @@
 
 namespace SnowRunnerModManager.Core.GameClasses
 {
-    public abstract class GameCommon
+    public abstract class GameCommon : IModificationTrackable
     {
-        public enum GameState
+        private ModificationState _state;
+        public ModificationState State
         {
-            Original,
-            Modified,
-            Custom
+            get { return _state; }
+            private set
+            {
+                if (value == ModificationState.Modified && _state != ModificationState.Custom)
+                    _state = value;
+            }
         }
 
         public string Name { get; set; }
@@ -20,5 +24,6 @@ namespace SnowRunnerModManager.Core.GameClasses
         [EditorField("Unlocked by rank", -1)]
         public int UnlockByRank { get; set; }
 
+        public void SetModified() => State = ModificationState.Modified;
     }
 }

@@ -3,6 +3,7 @@
 using Avalonia.Controls.Chrome;
 using Avalonia.Interactivity;
 using SnowRunnerModManager.App.EditorHelpers;
+using SnowRunnerModManager.App.Windows;
 using SnowRunnerModManager.Core.Projects;
 using SnowRunnerModManager.Infrastructure.Helpers;
 using SnowRunnerModManager.RuntimeTests.Renderer;
@@ -39,18 +40,17 @@ namespace SnowRunnerModManager.App.UserContorls
 
         }
 
-        private void OnMinimize(object? sender, RoutedEventArgs e)
+        private async void NewProjectClick(object? sender, RoutedEventArgs e)
         {
-            TopLevel? topLevel = TopLevel.GetTopLevel(this);
+            Window window = (Window?)TopLevel.GetTopLevel(this) ?? throw new Exception();
+            NewProject np = new();
+            await np.ShowDialog(window);
 
-            if (topLevel is not Window window)
+            if (np.Saved == false)
                 return;
 
-            window.WindowState = WindowState.Minimized;
+            await Project.Create(np.ProjectName, np.ProjectFolder, np.EXEPath);
         }
-
-
-
 
         // Tests
 
@@ -82,17 +82,13 @@ namespace SnowRunnerModManager.App.UserContorls
             AppEvents.RaiseMessage(this, new(path, MessageEventArgs.MessageSeverity.Info));
         }
 
-        RendererTestClass rtc = new("defstr", -1, -0.1, RendererTestClass.TestEnum.A, false, true, new("defstrnest", -2), ["t1", "t3"], ["t2"]);
+        RendererTestClass rtc = new("defstr", -1, -0.1, RendererTestClass.TestEnum.A, false, true, new("defstrnest", -2), ["t1", "t3"], ["t2"], [new("test 1", 1), new("test 2", 2)]);
         private async void TestRendererfc(object? sender, RoutedEventArgs e)
         {
-            Project p = await Project.Create("", "", "");
+            Project p = Project.CreateDummy();
 
             EditorFieldRenderer<RendererTestClass> efr = new(rtc);
-        }
-
-        private async void TestRendererSecond(object? sender, RoutedEventArgs e)
-        {
-            EditorFieldRenderer<RendererTestClass> eft = new(rtc);
+            rtc = await efr.Render();
         }
     }
 }

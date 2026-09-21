@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:usercontorls="using:SnowRunnerModManager.App.UserContorls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SnowRunnerModManager.App.Windows.NewProject"
+        Title="NewProject">
+    <StackPanel>
+        <usercontorls:NewProjectControl x:Name="NameField" FieldName="Name" PickType="None"/>
+        <usercontorls:NewProjectControl x:Name="EXEField" FieldName="Game EXE Path" PickType="File" FileType="*.exe"/>
+        <usercontorls:NewProjectControl x:Name="FolderField" FieldName="Project Folder" PickType="Folder"/>
+        <Button Content="Create" Click="OnCreate"/>
+    </StackPanel>
+</Window>

@@ -52,14 +52,22 @@ namespace SnowRunnerModManager.Core.Projects
             return null;
         }
 
-        public static async Task<Project> Create(string name, string rootFolder, string gameFolder)
+        public static async Task<Project?> Create(string name, string rootFolder, string exePath)
         {
+            if (!ProjectIO.VerifyGameDir(exePath, out string? gameFolder))
+                return null;
+
             CurrentProject = new(name, rootFolder, gameFolder);
 
-            //ProjectIO.VerifyGameDir(gameFolder);
-
+            await ProjectIO.UnpackInitial(rootFolder, gameFolder);
 
             return CurrentProject;
+        }
+
+        public static Project CreateDummy()
+        {
+            Initiated = true;
+            return new Project("", "", "");
         }
     }
 }

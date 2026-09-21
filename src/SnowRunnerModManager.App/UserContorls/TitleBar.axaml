@@ -11,7 +11,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Left">
                 <Menu WindowDecorationProperties.ElementRole="User">
                     <MenuItem Header="File">
-                        <MenuItem Header="New Project"/>
+                        <MenuItem Header="New Project" Click="NewProjectClick"/>
                         <MenuItem Header="Load Project"/>
                         <Separator/>
                     </MenuItem>
@@ -33,7 +33,6 @@
                         <MenuItem Header="TestProgress 100" Click="TestProgress100"/>
                         <MenuItem Header="TestProgress F" Click="TestProgressF"/>
                         <MenuItem Header="TestRendererfc" Click="TestRendererfc"/>
-                        <MenuItem Header="TestRendererSecond" Click="TestRendererSecond"/>
                         <MenuItem Header="TestSteamPath" Click="TestSteamPath"/>
                     </MenuItem>
                 </Menu>

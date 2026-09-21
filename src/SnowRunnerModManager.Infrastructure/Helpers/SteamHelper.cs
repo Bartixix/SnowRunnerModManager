@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using SnowRunnerModManager.Infrastructure.IO;
+using SnowRunnerModManager.Pak;
 
 namespace SnowRunnerModManager.Infrastructure.Helpers
 {
 
-    public class SteamHelper
+    public class SteamHelper : IGameLibHelper
     {
         private const string SteamUserSubKey = "Software\\Valve\\Steam";
         private const string SteamUserName = "SteamPath";
@@ -92,7 +94,7 @@ namespace SnowRunnerModManager.Infrastructure.Helpers
                 if (!File.Exists(manifestPath))
                     continue;
 
-                path = Path.Combine(library, SnowRunnerRelativePath);
+                path = Path.Combine(library, SnowRunnerRelativePath, Constants.EXERelative);
                 return true;
             }
 

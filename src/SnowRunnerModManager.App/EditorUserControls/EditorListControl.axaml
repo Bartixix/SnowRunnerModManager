@@ -4,5 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SnowRunnerModManager.App.EditorUserControls.EditorListControl">
-  Welcome to Avalonia!
+  <Grid x:Name="MainGrid">
+      <TextBlock x:Name="MainText" Grid.Column="1"/>
+      <Button x:Name="MainBtn" Grid.Column="2" HorizontalAlignment="Stretch" Click="OpenListEditor"/>
+  </Grid>
 </UserControl>

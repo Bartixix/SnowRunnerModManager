@@ -7,8 +7,9 @@
              x:Class="SnowRunnerModManager.App.EditorUserControls.EditorSimpleClassControl"
              x:DataType="local:EditorSimpleClassControl">
     <StackPanel Spacing="5">
-        <TextBlock x:Name="InputHeader"/>
-        
+        <Grid x:Name="HeaderPanel" ColumnDefinitions="*, auto">
+            <TextBlock x:Name="InputHeader" VerticalAlignment="Center" Grid.Column="0"/>
+        </Grid>
         <StackPanel x:Name="MainPanel" Grid.Column="1">
                 
         </StackPanel>

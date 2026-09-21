@@ -10,7 +10,7 @@ using SnowRunnerModManager.App.Windows;
 
 namespace SnowRunnerModManager.App.EditorUserControls
 {
-    public partial class EditorFieldControl : EditorUserControl
+    public partial class EditorFieldControl : EditorUserControl, ITopLevelSavable
     {
         public EditorFieldControl()
         {
@@ -19,7 +19,7 @@ namespace SnowRunnerModManager.App.EditorUserControls
             Initialized += SetupField;
         }
 
-        public override void Save()
+        public void Save()
         {
             if (EditorFieldHelper.GetSimpleControlValue(MainControl!, Parameter.PropertyType, out object? value))
             {

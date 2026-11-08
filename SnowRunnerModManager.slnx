@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="LICENSE.txt" />
+    <File Path="README.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/SnowRunnerModManager.App/SnowRunnerModManager.App.csproj" Id="dd088e83-e64f-4ef8-8d56-8c3b78cc20f6" />
     <Project Path="src/SnowRunnerModManager.Core/SnowRunnerModManager.Core.csproj" Id="49eb22e3-f1c5-41ed-9f17-11973b9b79f7" />

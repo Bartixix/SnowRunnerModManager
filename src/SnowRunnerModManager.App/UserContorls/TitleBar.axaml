@@ -34,6 +34,8 @@
                         <MenuItem Header="TestProgress F" Click="TestProgressF"/>
                         <MenuItem Header="TestRendererfc" Click="TestRendererfc"/>
                         <MenuItem Header="TestSteamPath" Click="TestSteamPath"/>
+                        <MenuItem Header="TestLoad" />
+                        <MenuItem Header="TestLoadC" Click="CustomLoadTest"/>
                     </MenuItem>
                 </Menu>
             </StackPanel>

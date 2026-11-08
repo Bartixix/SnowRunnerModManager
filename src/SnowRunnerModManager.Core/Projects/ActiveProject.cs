@@ -1,6 +1,6 @@
 ﻿using SnowRunnerModManager.Core.Classes;
 using SnowRunnerModManager.Core.GameClasses;
-
+using SnowRunnerModManager.Core.GameClasses.Objects;
 using SnowRunnerModManager.Utils.Metadata;
 
 namespace SnowRunnerModManager.Core.Projects
@@ -23,9 +23,9 @@ namespace SnowRunnerModManager.Core.Projects
         {
             Registry<Wheel> reg = new();
 
-            reg.Add(new() { Name = "t1" });
-            reg.Add(new() { Name = "t2" });
-            reg.Add(new() { Name = "t3" });
+            reg.Add(new() { Name = "t1", Origin = "", BodyFriction = 0, BodyFrictionAsphalt = 0, Price = 0, StateInit = ModificationState.Original, SubstanceFriction = 0, UnlockByRank = 0, UnlockByExploration = false });
+            reg.Add(new() { Name = "t2", Origin = "", BodyFriction = 0, BodyFrictionAsphalt = 0, Price = 0, StateInit = ModificationState.Original, SubstanceFriction = 0, UnlockByRank = 0, UnlockByExploration = false });
+            reg.Add(new() { Name = "t3", Origin = "", BodyFriction = 0, BodyFrictionAsphalt = 0, Price = 0, StateInit = ModificationState.Original, SubstanceFriction = 0, UnlockByRank = 0, UnlockByExploration = false });
 
             return reg; ;
         })();

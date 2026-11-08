@@ -1,9 +1,10 @@
-﻿using SnowRunnerModManager.Core.Projects;
+﻿using SnowRunnerModManager.Core.GameClasses;
+using SnowRunnerModManager.Core.Projects;
 using SnowRunnerModManager.Utils.Metadata;
 
 namespace SnowRunnerModManager.RuntimeTests.Renderer
 {
-    public class RendererTestClass
+    public class RendererTestClass : IModificationTrackable
     {
         public RendererTestClass(string testStr, int testInt, double testDouble, TestEnum testEnumF, bool testBoolFalse, bool testBoolTrue, RendererNestedClass nestedClass, List<string> testStringBindingMulti, List<string> testStringBindingSingle, List<ListTestClass> listTest)
         {
@@ -18,6 +19,8 @@ namespace SnowRunnerModManager.RuntimeTests.Renderer
             TestStringBindingSingle = testStringBindingSingle;
             ListTest = listTest;
         }
+
+        public ModificationState State { get; set; } = ModificationState.Original;
 
         public enum TestEnum
         {
@@ -55,5 +58,10 @@ namespace SnowRunnerModManager.RuntimeTests.Renderer
         [EditorList("List test", 0)]
         [EditorSimpleClass]
         public List<ListTestClass> ListTest { get; set; }
+
+        public void SetModified()
+        {
+            State = ModificationState.Modified;
+        }
     }
 }

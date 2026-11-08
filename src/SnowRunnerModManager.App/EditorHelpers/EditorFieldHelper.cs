@@ -197,7 +197,7 @@ namespace SnowRunnerModManager.App.EditorHelpers
         {
             Type type = target.GetType();
 
-            HashSet<string> ignoredProperties = PropertyIgnoreIf.FindPropertiesToIgnore(target);
+            HashSet<string> ignoredProperties = PropertyIgnoreIf.FindPropertiesToIgnore(type, target);
 
             Dictionary<PropertyInfo, EditorField> editorFields = GetEditorProperties<EditorField>(type, ignoredProperties);
             Dictionary<PropertyInfo, EditorList> editorLists = GetEditorProperties<EditorList>(type, ignoredProperties);

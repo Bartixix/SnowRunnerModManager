@@ -4,12 +4,21 @@ using Avalonia.Controls.Chrome;
 using Avalonia.Interactivity;
 using SnowRunnerModManager.App.EditorHelpers;
 using SnowRunnerModManager.App.Windows;
+using SnowRunnerModManager.Core.Classes;
+using SnowRunnerModManager.Core.GameClasses.Objects;
+using SnowRunnerModManager.Core.GameParsers;
+using SnowRunnerModManager.Core.Helpers;
 using SnowRunnerModManager.Core.Projects;
 using SnowRunnerModManager.Infrastructure.Helpers;
 using SnowRunnerModManager.RuntimeTests.Renderer;
 using SnowRunnerModManager.Utils.Events;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using SnowRunnerModManager.Infrastructure.Xml;
+using SnowRunnerModManager.Core.GameClasses.Templates;
+using System.Linq;
+using SnowRunnerModManager.Core.GameClasses;
 
 namespace SnowRunnerModManager.App.UserContorls
 {
@@ -89,6 +98,81 @@ namespace SnowRunnerModManager.App.UserContorls
 
             EditorFieldRenderer<RendererTestClass> efr = new(rtc);
             rtc = await efr.Render();
+        }
+
+        //private async void TestLoad(object? sender, RoutedEventArgs e)
+        //{
+        //    string TP = "E:\\Coding\\snowrnn-mod\\test-load\\trucks.xml";
+        //    string EP = "E:\\Coding\\snowrnn-mod\\test-load\\engine.xml";
+        //    string TrP = "E:\\Coding\\snowrnn-mod\\test-load\\truck_n.xml";
+        //    string WP = "E:\\Coding\\snowrnn-mod\\test-load\\wheels.xml";
+        //    string GP = "E:\\Coding\\snowrnn-mod\\test-load\\gearbox.xml";
+
+        //    Project p = Project.CreateDummy();
+
+        //    Parser engineParser = Parser.GetParser<Engine>();
+        //    Parser truckParser = Parser.GetParser<Truck>();
+        //    Parser wheelParser = Parser.GetParser<Wheel>();
+        //    Parser gearboxParser = Parser.GetParser<Gearbox>();
+
+        //    XElement templateDoc = await ParserHelper.LoadXML(TP);
+        //    XElement[] templateElements = [.. templateDoc.Element("_templates")!.Element("WheelFriction")!.Descendants()];
+
+        //    XElement engineDoc = await ParserHelper.LoadXML(EP);
+        //    XElement[] engines = [.. engineDoc.Element("EngineVariants")!.Elements("Engine")];
+
+        //    XElement truckDoc = await ParserHelper.LoadXML(TrP);
+
+        //    XElement wheelDoc = await ParserHelper.LoadXML(WP);
+        //    XElement[] wheels = [.. wheelDoc.Element("TruckWheels")!.Element("TruckTires")!.Elements("TruckTire")];
+
+        //    XElement gearboxDoc = await ParserHelper.LoadXML(GP);
+        //    XElement[] gearboxes = [.. gearboxDoc.Element("GearboxVariants")!.Elements("Gearbox")];
+
+        //    Registry<Wheel> templates = ActiveProject.WheelTemplates;
+        //    Group<Engine> engineGroup;
+        //    Truck t;
+        //    Group<Wheel> wheelGroup;
+        //    Group<Gearbox> gearboxGroup;
+
+        //    foreach (XElement TE in templateElements)
+        //        ActiveProject.WheelTemplates.Add((Wheel)wheelParser.Parse(TE, TP)!);
+
+        //    List<Engine> EL = [];
+        //    foreach (XElement E in engines)
+        //        EL.Add((Engine)engineParser.Parse(E, EP)!);
+
+        //    engineGroup = new("testE", "", EL);
+
+        //    t = (Truck)truckParser.Parse(truckDoc, TrP)!;
+
+        //    List<Wheel> WL = [];
+        //    foreach (XElement W in wheels)
+        //        WL.Add((Wheel)wheelParser.Parse(W, WP)!);
+
+        //    wheelGroup = new("testW", "", WL);
+
+        //    List<Gearbox> GL = [];
+        //    foreach (XElement G in gearboxes)
+        //        GL.Add((Gearbox)gearboxParser.Parse(G, GP)!);
+
+        //    gearboxGroup = new("testG", "", GL);
+        //}
+
+        private async void CustomLoadTest(object? sender, RoutedEventArgs e)
+        {
+            string TrP = "E:\\Coding\\snowrnn-mod\\test-load\\truck_n.xml";
+
+
+            XDocument doc = XDocument.Load(TrP);
+
+            Parser wtp = Parser.GetParser<WheelTemplate>();
+
+            List<XTemplate> templates = doc.TemplateRoot!.Element("Wheel")!.Children;
+
+            GameContainer<Truck> gc = new();
+
+            List<WheelTemplate> wt = [.. templates.Select(t => (WheelTemplate)wtp.Parse(t, gc, TrP)!)];
         }
     }
 }

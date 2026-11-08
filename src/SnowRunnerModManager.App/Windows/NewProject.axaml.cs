@@ -39,9 +39,6 @@ namespace SnowRunnerModManager.App.Windows
 
             Saved = true;
             Close();
-
-            GameCommon c = new Wheel();
-            c.s
         }
     }
 }

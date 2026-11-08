@@ -1,5 +1,6 @@
 ﻿using SnowRunnerModManager.Core.Classes;
-using SnowRunnerModManager.Core.GameClasses;
+using SnowRunnerModManager.Core.GameClasses.Objects;
+using SnowRunnerModManager.Core.Helpers;
 using SnowRunnerModManager.Infrastructure.IO;
 using System;
 using System.Collections.Generic;
@@ -38,12 +39,16 @@ namespace SnowRunnerModManager.Core.Projects
         public Registry<Truck> Trucks { get; } = new();
         public Registry<Wheel> WheelTemplates { get; } = new();
 
+        public string InitialPath { get; }
+
 
         private Project(string name, string rootFolder, string gameFolder)
         {
             Name = name;
             RootFolder = rootFolder;
             GameFolder = gameFolder;
+
+            InitialPath = Path.Combine(RootFolder, Constants.InitialUnpacked);
         }
 
 
@@ -60,14 +65,16 @@ namespace SnowRunnerModManager.Core.Projects
             CurrentProject = new(name, rootFolder, gameFolder);
 
             await ProjectIO.UnpackInitial(rootFolder, gameFolder);
+            await RegistryHelper.LoadAllRegistries();
 
             return CurrentProject;
         }
 
         public static Project CreateDummy()
         {
+            CurrentProject = new Project("", "", "");
             Initiated = true;
-            return new Project("", "", "");
+            return CurrentProject;
         }
     }
 }

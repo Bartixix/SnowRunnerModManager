@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using SnowRunnerModManager.Infrastructure.IO;
-using SnowRunnerModManager.Pak;
 
 namespace SnowRunnerModManager.Infrastructure.Helpers
 {

@@ -1,4 +1,4 @@
-﻿namespace SnowRunnerModManager.Pak
+﻿namespace SnowRunnerModManager.Infrastructure.IO
 {
     public class Constants
     {
@@ -13,5 +13,15 @@
 
         // project dir constants
         public const string InitialUnpacked = "initial-unpacked";
+        public const string SavedModified = "saved\\modified";
+        public const string SavedCustom = "saved\\custom";
+
+        // initial.pak structures
+        public const string Templates = "[media]\\_templates\\trucks.xml";
+        public const string Engines = "engines";
+        public const string Gearboxes = "gearboxes";
+        public const string Wheels = "wheels";
+        public const string Trucks = "trucks";
+
     }
 }

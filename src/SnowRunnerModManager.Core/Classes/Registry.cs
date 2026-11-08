@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SnowRunnerModManager.Core.Classes
 {
-    public class Registry<T> : IRegistry where T : GameCommon
+    public class Registry<T> : IRegistry where T : GameObject
     {
         public Type ItemType { get; } = typeof(T);
 

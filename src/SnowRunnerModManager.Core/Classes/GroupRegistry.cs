@@ -2,7 +2,7 @@
 
 namespace SnowRunnerModManager.Core.Classes
 {
-    public class GroupRegistry<T> : IRegistry where T : GameCommon
+    public class GroupRegistry<T> : IRegistry where T : GameObject
     {
         public Type ItemType { get; } = typeof(T);
 

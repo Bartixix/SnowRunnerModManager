@@ -1,5 +1,5 @@
 ﻿using SnowRunnerModManager.Infrastructure.Helpers;
-using SnowRunnerModManager.Pak;
+
 using SnowRunnerModManager.Utils.Events;
 using System;
 using System.Collections.Generic;
@@ -86,6 +86,12 @@ namespace SnowRunnerModManager.Infrastructure.IO
                 return true;
 
             return false;
+        }
+
+        public static string[] GetFilesInKeyFolders(string rootFolder, string folders)
+        {
+            IEnumerable<string> dirs = Directory.EnumerateDirectories(rootFolder, $"*{folders}", SearchOption.AllDirectories);
+            return [.. dirs.SelectMany(d => Directory.GetFiles(d, "*.xml"))];
         }
     }
 }

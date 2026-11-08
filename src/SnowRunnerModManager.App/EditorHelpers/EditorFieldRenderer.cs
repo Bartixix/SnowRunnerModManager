@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SnowRunnerModManager.App.EditorHelpers
 {
-    public class EditorFieldRenderer<T>(T target) where T : class
+    public class EditorFieldRenderer<T>(T target) where T : IModificationTrackable
     {
         private readonly T _target = target;
         //private readonly StackPanel _panel;
@@ -32,6 +32,7 @@ namespace SnowRunnerModManager.App.EditorHelpers
             Rendered = true;
 
             T temp = ObjectHelper.Clone(_target);
+            temp.SetModified();
 
             List<Control> controls = EditorFieldHelper.GetControls(temp, 0);
             RenderedEditor.EditorFieldsPanel.Children.AddRange(controls);

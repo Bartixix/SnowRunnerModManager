@@ -83,8 +83,6 @@ namespace SnowRunnerModManager.Core.GameParsers
             if (Termination == TerminationType.Tag)
                 return false;
 
-            //if (!TryResolveQuery(document, out XElement? element))
-            //    return false;
             List<TChild> elements = document.QuerySelector([.. Steps]);
             if (elements.Count == 0)
                 return false;
@@ -120,9 +118,6 @@ namespace SnowRunnerModManager.Core.GameParsers
             if (Termination != TerminationType.Tag)
                 return false;
 
-            //if (!TryResolveQuery(document, out XElement? newRoot))
-            //    return false;
-
             XBase<TParent, TChild> newRoot = document.QuerySelector([.. Steps]).FirstOrDefault() ?? throw new Exception();
 
             return LowLevelParse(newRoot, gc, objectType, origin, out value);
@@ -134,9 +129,6 @@ namespace SnowRunnerModManager.Core.GameParsers
         {
             value = null;
             IList list = (IList)Activator.CreateInstance(objectType)!;
-
-            //if (!TryResolveQueryAll(container, out XBase<TParent, TChild>[] elements))
-            //    return false;
 
             List<TChild> elements = container.QuerySelector([.. Steps]);
 
@@ -165,75 +157,6 @@ namespace SnowRunnerModManager.Core.GameParsers
 
             return true;
         }
-
-        //public bool TryResolveQuery<TParent, TChild>(XBase<TParent, TChild> container, [NotNullWhen(true)] out XBase<TParent, TChild>? element)
-        //    where TParent : XBase<TParent, TChild>
-        //    where TChild : XBase<TParent, TChild>
-        //{
-        //    element = null;
-
-        //    if (Steps.Length == 0)
-        //    {
-        //        element = container;
-        //        if (element == null)
-        //            return false;
-
-        //        return true;
-        //    }
-
-        //    XBase<TParent, TChild>? res = container.Element(Steps[0]);
-        //    if (res == null) return false;
-
-        //    for (int i = 1; i < Steps.Length; i++)
-        //    {
-        //        res = res.Element(Steps[i]);
-        //        if (res == null) return false;
-        //    }
-
-        //    element = res;
-        //    return true;
-        //}
-
-        //public XElement[] ResolveQueryAll(XContainerBase container)
-        //{
-        //    if (Steps.Length == 0)
-        //        throw new Exception();
-
-        //    XElement? res = container.Element(Steps[0]) ?? throw new Exception();
-        //    for (int i = 1; i < Steps.Length - 1; i++)
-        //        res = res.Element(Steps[i]) ?? throw new Exception();
-
-        //    return [.. res.Elements(Steps[^1])];
-        //}
-
-        //public bool TryResolveQueryAll<TParent, TChild>(XBase<TParent, TChild> container, [NotNullWhen(true)] out XBase<TParent, TChild>[] elements)
-        //    where TParent : XBase<TParent, TChild>
-        //    where TChild : XBase<TParent, TChild>
-        //{
-        //    elements = [];
-        //    XBase<TParent, TChild>? element;
-
-        //    if (Steps.Length == 0)
-        //    {
-        //        element = container as XBase<TParent, TChild>;
-        //        if (element == null)
-        //            return false;
-
-        //        return true;
-        //    }
-
-        //    XBase<TParent, TChild>? res = container.Element(Steps[0]);
-        //    if (res == null) return false;
-
-        //    for (int i = 1; i < Steps.Length - 1; i++)
-        //    {
-        //        res = res.Element(Steps[i]);
-        //        if (res == null) return false;
-        //    }
-
-        //    elements = [.. res.Elements(Steps[^1])];
-        //    return true;
-        //}
     }
 
 }

@@ -3,7 +3,7 @@ using SnowRunnerModManager.Utils.Metadata;
 
 namespace SnowRunnerModManager.Core.GameClasses.Templates
 {
-    public class WheelTemplate : Template
+    public class WheelTemplate : Template<WheelTemplate>
     {
         [XMLElement("#$")]
         public required TorqueMode Torque { get; set; }

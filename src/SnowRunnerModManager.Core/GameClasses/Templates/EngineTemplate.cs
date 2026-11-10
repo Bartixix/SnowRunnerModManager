@@ -2,7 +2,7 @@
 
 namespace SnowRunnerModManager.Core.GameClasses.Templates
 {
-    public class EngineTemplate : Template
+    public class EngineTemplate : Template<EngineTemplate>
     {
 
         [XMLElement("#$")]

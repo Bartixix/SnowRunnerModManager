@@ -12,7 +12,7 @@ namespace SnowRunnerModManager.Core.GameClasses.Objects
         [EditorField("Rear Z offset", 1)]
         [XMLElement("#$", DefaultValue = "0")]
         public required double RearOffsetZ { get; set; }
-        [EditorBinding("Wheels", 2, nameof(ActiveProject.Wheels))]
+        [EditorBinding("Wheels", 2, nameof(ActiveProject.Tires))]
         [XMLElement("#Type")]
         public required string Wheel { get; set; }
     }

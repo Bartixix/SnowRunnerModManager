@@ -107,51 +107,6 @@ namespace SnowRunnerModManager.Core.Helpers
 
         public static string? GetTemplateName(XBase container) => container.Name;
 
-        public static string? ResolveTemplate<TParent, TChild>(XBase<TParent, TChild> container, string templateType)
-            where TParent : XBase<TParent, TChild>
-            where TChild : XBase<TParent, TChild>
-        {
-            string? template = container.Element("WheelFriction")?.GetAttribute("_template")?.Value;
-            if (template == null)
-            {
-                string type = container.GetAttribute("_template")?.Value ?? throw new Exception();
-                template = container.Document.TemplateRoot?.Element("TruckTire")?.Element(type)?.Element("WheelFriction")?.GetAttribute("_template")?.Value;
-            }
-
-            if (template == null)
-                throw new Exception();
-
-            Wheel wheelTemplate = ActiveProject.WheelTemplates.Get(template);
-
-            string? res = templateType switch
-            {
-                "bfa" => wheelTemplate.BodyFrictionAsphalt.ToString(),
-                "bf" => wheelTemplate.BodyFriction.ToString(),
-                "sf" => wheelTemplate.SubstanceFriction.ToString(),
-                _ => null
-            };
-
-            return res;
-        }
-
-        //public static string? IsWheelTemplate<TParent, TChild>(XBase<TParent, TChild> container)
-        //    where TParent : XBase<TParent, TChild>
-        //    where TChild : XBase<TParent, TChild>
-        //{
-        //    XBase<TParent, TChild> element = container;
-        //    if (element.Name != "TruckTire")
-        //        return bool.TrueString;
-        //    return bool.FalseString;
-        //}
-
-        //public static async Task<XContainer> LoadXML(string path)
-        //{
-        //    string file = await File.ReadAllTextAsync(path);
-        //    string newRoot = $"<Root>{file}</Root>";
-        //    newRoot = newRoot.Replace("region:", "SRMMregion");
-        //    return XDocument.Parse(newRoot).Root!;
-        //}
-
         public static string? HasAxle<TParent, TChild>(XBase<TParent, TChild> element, int axle)
             where TParent : XBase<TParent, TChild>
             where TChild : XBase<TParent, TChild>
@@ -170,12 +125,6 @@ namespace SnowRunnerModManager.Core.Helpers
 
             if (axle == 4)
                 return (element.Element("RearWheel") ?? element.Element("RearAxle")) != null ? bool.TrueString : bool.FalseString;
-
-            //if (element.Descendants().Count() == 3)
-            //    return bool.TrueString;
-            //if (element.Descendants().Count() == 2)
-            //    return bool.FalseString;
-
 
             return null;
         }

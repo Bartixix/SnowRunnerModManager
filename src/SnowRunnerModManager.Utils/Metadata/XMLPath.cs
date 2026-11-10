@@ -59,9 +59,6 @@ namespace SnowRunnerModManager.Utils.Metadata
         public string Path { get; } = path;
         public string? DefaultValue { get; init; }
         public string? ListSeparator { get; init; }
-        //public bool ResolveMultipleValues { get; init; } = false;
-        //public bool ResolveAllChildren { get; init; } = false;
-        //public bool ResolveAllAttributes { get; init; } = false;
         public SpecialResolver Special { get; init; } = SpecialResolver.None;
     }
 

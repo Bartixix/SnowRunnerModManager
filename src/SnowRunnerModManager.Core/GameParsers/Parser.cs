@@ -1,4 +1,5 @@
 ﻿using SnowRunnerModManager.Core.GameClasses;
+using SnowRunnerModManager.Core.GameClasses.Common;
 using SnowRunnerModManager.Core.Helpers;
 using SnowRunnerModManager.Core.Projects;
 using SnowRunnerModManager.Utils.Metadata;
@@ -40,21 +41,6 @@ namespace SnowRunnerModManager.Core.GameParsers
             ObjectType = type;
 
             List<PropertyInfo> properties = [.. type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.GetCustomAttribute<XMLPath>(true) != null && p.CanWrite)];
-
-            //ImmutableDictionary<string, ParserTree> primarySteps = properties.Where(p => p.GetCustomAttributes<PropertyIgnoreIf>().Any()).Select(p =>
-            //{
-            //    XMLElement path = p.GetCustomAttribute<XMLElement>()!;
-            //    return new KeyValuePair<string, ParserTree>(p.Name, new(path, p));
-            //}).ToImmutableDictionary(p => p.Key, p => p.Value);
-
-            //ImmutableDictionary<string, ParserTree> secondarySteps = properties.Where(p => !p.GetCustomAttributes<PropertyIgnoreIf>().Any()).Select(p =>
-            //{
-            //    XMLElement path = p.GetCustomAttribute<XMLElement>()!;
-            //    return new KeyValuePair<string, ParserTree>(p.Name, new(path, p));
-            //}).ToImmutableDictionary(p => p.Key, p => p.Value);
-
-            //PrimarySteps = primarySteps;
-            //SecondarySteps = secondarySteps;
 
             PropertyIgnoreIfs = GetParserTree<XMLPath>(properties, true);
             XMLElements = GetParserTree<XMLElement>(properties, false);
@@ -172,7 +158,7 @@ namespace SnowRunnerModManager.Core.GameParsers
 
                 Type templateType = tree.Value.Parameter.PropertyType;
 
-                if (templateType.GetGenericTypeDefinition() != typeof(Templatable<>))
+                if (templateType.GetGenericTypeDefinition() != typeof(Templatable<,>))
                     continue;
 
                 if (!tree.Value.TryResolveTemplate(gc, templateType.GetGenericArguments()[0], out Template? template))
@@ -210,11 +196,8 @@ namespace SnowRunnerModManager.Core.GameParsers
                     "OriginalState" => Enum.GetName(ModificationState.Original),
                     "FileName" => ParserHelper.GetFileName(origin),
                     "FileRelative" => ParserHelper.GetRelativePath(origin),
-                    "axle_torque" => ParserHelper.GetAxleTorque(container, int.Parse(specialArg!)),
                     "TagName" => ParserHelper.GetTemplateName(container),
-                    "template" => ParserHelper.ResolveTemplate(container, specialArg!),
-                    //"is_wheel_template" => ParserHelper.IsWheelTemplate(container),
-                    "has_axle" => ParserHelper.HasAxle(container, int.Parse(specialArg!)),
+                    "HasAxle" => ParserHelper.HasAxle(container, int.Parse(specialArg!)),
                     _ => null
                 };
                 if (result == null)

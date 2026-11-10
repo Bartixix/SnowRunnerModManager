@@ -1,4 +1,6 @@
 ﻿using SnowRunnerModManager.Core.GameClasses;
+using SnowRunnerModManager.Core.GameClasses.Common;
+using SnowRunnerModManager.Utils.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +8,15 @@ using System.Text.Json.Serialization;
 
 namespace SnowRunnerModManager.Core.Classes
 {
-    public abstract class Templatable<T> : IModificationTrackable
+    public enum TemplatableType
+    {
+        Empty,
+        Templated,
+        Overriden
+    }
+
+    public class Templatable<TValue, TTemplate> : IModificationTrackable
+        where TTemplate : Template<TTemplate>
     {
         private ModificationState _state = ModificationState.Original;
 
@@ -20,29 +30,36 @@ namespace SnowRunnerModManager.Core.Classes
             }
         }
 
-        public bool IsTemplateValue { get; private set; }
-        public Template? TemplateValue { get; private set; }
-        public T? LocalValue { get; private set; }
+        public TemplatableType TemplateMode { get; private set; }
+        public TTemplate? TemplateValue { get; private set; }
+        public TValue? LocalValue { get; private set; }
 
         public bool IsOverridable { get; init; } = true;
 
-        public Templatable(T value)
+        public Templatable()
         {
-            IsTemplateValue = false;
+            TemplateMode = TemplatableType.Empty;
+            LocalValue = default;
+            TemplateValue = null;
+        }
+
+        public Templatable(TValue value)
+        {
+            TemplateMode = TemplatableType.Overriden;
             LocalValue = value;
             TemplateValue = null;
         }
 
-        public Templatable(Template template)
+        public Templatable(TTemplate template)
         {
-            IsTemplateValue = true;
+            TemplateMode = TemplatableType.Templated;
             LocalValue = default;
             TemplateValue = template;
         }
 
-        public Templatable(T value, Template template)
+        public Templatable(TValue value, TTemplate template)
         {
-            IsTemplateValue = false;
+            TemplateMode = TemplatableType.Overriden;
             LocalValue = value;
             TemplateValue = template;
         }

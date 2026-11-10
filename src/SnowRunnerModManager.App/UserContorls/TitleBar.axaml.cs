@@ -170,7 +170,7 @@ namespace SnowRunnerModManager.App.UserContorls
 
             List<XTemplate> templates = doc.TemplateRoot!.Element("Wheel")!.Children;
 
-            GameContainer<Truck> gc = new();
+            GameContainer<Truck> gc = new("");
 
             List<WheelTemplate> wt = [.. templates.Select(t => (WheelTemplate)wtp.Parse(t, gc, TrP)!)];
         }

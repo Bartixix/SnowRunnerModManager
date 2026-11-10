@@ -1,17 +1,18 @@
-﻿using SnowRunnerModManager.Utils.Metadata;
+﻿using SnowRunnerModManager.Core.GameClasses.Common;
+using SnowRunnerModManager.Utils.Metadata;
 
 namespace SnowRunnerModManager.Core.GameClasses
 {
-    public abstract class GameContainer
+    public abstract class GameContainer(string name) : ICommonObject
     {
         [XMLSpecial(SpecialOp.FileName)]
-        public string FileName { get; }
+        public string Name { get; } = name;
 
         [XMLRoot(RootElement.Template)]
         public Dictionary<TemplateType, Dictionary<string, Template>> Templates { get; } = [];
     }
 
-    public class GameContainer<T> : GameContainer where T : GameObject
+    public class GameContainer<T>(string name) : GameContainer(name) where T : GameObject
     {
         [XMLRoot(RootElement.Object)]
         public Dictionary<string, T> GameItems { get; } = [];

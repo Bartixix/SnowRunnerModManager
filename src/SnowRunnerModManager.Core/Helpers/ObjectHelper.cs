@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
+using SnowRunnerModManager.Core.GameClasses.Common;
+
 namespace SnowRunnerModManager.Core.Helpers
 {
     public class ObjectHelper

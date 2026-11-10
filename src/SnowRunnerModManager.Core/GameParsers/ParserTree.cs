@@ -43,34 +43,8 @@ namespace SnowRunnerModManager.Core.GameParsers
             obj = null;
 
             for (int i = 0; i < Paths.Length; i++)
-            {
-                //if (type == typeof(List<string>) && XMLPath.ListSeparator != null && Paths[i].TryGetSingleValue(container, origin, out string? temp))
-                //{
-                //    obj = temp.Split(XMLPath.ListSeparator).ToList();
-                //    return true;
-                //}
-
-                //if (type.IsClass && type != typeof(string))
-                //{
-                //    if (XMLPath.Special != SpecialResolver.MultipleValues && Paths[i].TryGetClassValue(container, type, origin, out obj))
-                //        return true;
-
-                //    if (XMLPath.Special == SpecialResolver.MultipleValues && Paths[i].TryGetClassValueList(container, type, origin, out IList? list))
-                //    {
-                //        obj = list;
-                //        return true;
-                //    }
-                //}
-
-                //if ((!type.IsClass || type == typeof(string)) && Paths[i].TryGetSingleValue(container, origin, out temp))
-                //{
-                //    obj = temp;
-                //    return true;
-                //}
-
                 if (TryEvalPath(container, gc, Paths[i], type, origin, out obj))
                     return true;
-            }
 
             return false;
         }
@@ -79,41 +53,13 @@ namespace SnowRunnerModManager.Core.GameParsers
             where TParent : XBase<TParent, TChild>
             where TChild : XBase<TParent, TChild>
         {
-            //obj = null;
-
-            //if (type == typeof(List<string>) && XMLPath.ListSeparator != null && path.TryGetSingleValue(container, origin, out string? temp))
-            //{
-            //    obj = temp.Split(XMLPath.ListSeparator).ToList();
-            //    return true;
-            //}
-
-            //if (type.IsClass && type != typeof(string))
-            //{
-            //    if (XMLPath.Special != SpecialResolver.MultipleValues && path.TryGetClassValue(container, gc, type, origin, out obj))
-            //        return true;
-
-            //    if (XMLPath.Special == SpecialResolver.MultipleValues && path.TryGetClassValueList(container, gc, type, origin, out IList? list))
-            //    {
-            //        obj = list;
-            //        return true;
-            //    }
-            //}
-
-            //if ((!type.IsClass || type == typeof(string)) && path.TryGetSingleValue(container, origin, out temp))
-            //{
-            //    obj = temp;
-            //    return true;
-            //}
-
-            //return false;
-
             obj = null;
 
 
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Templatable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Templatable<,>))
                 ;
 
-            if (type == typeof(Template))
+            if (type.IsAssignableTo(typeof(Template)))
                 ;
 
             if (type == typeof(List<string>) && XMLPath.ListSeparator != null)

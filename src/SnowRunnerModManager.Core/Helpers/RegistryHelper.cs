@@ -12,11 +12,11 @@ using SnowRunnerModManager.Core.GameParsers;
 using SnowRunnerModManager.Core.GameClasses.Objects;
 using SnowRunnerModManager.Core.GameClasses;
 
-
 namespace SnowRunnerModManager.Core.Helpers
 {
     public class RegistryHelper
     {
+        [Obsolete("Inoperable, references legacy code, is broken")]
         public static void GetAllRegistries<T>(out Dictionary<string, IRegistry> registries, out Dictionary<string, IRegistry> groupRegistries) where T : class
         {
             registries = [];
@@ -34,17 +34,17 @@ namespace SnowRunnerModManager.Core.Helpers
 
                 Type genericDefinition = propertyType.GetGenericTypeDefinition();
 
-                if (genericDefinition == typeof(Registry<>))
-                {
-                    registries.Add(p.Name, (IRegistry)p.GetValue(null)!);
-                    continue;
-                }
+                //if (genericDefinition == typeof(RegistryOld<>))
+                //{
+                //    registries.Add(p.Name, (IRegistry)p.GetValue(null)!);
+                //    continue;
+                //}
 
-                if (genericDefinition == typeof(GroupRegistry<>))
-                {
-                    groupRegistries.Add(p.Name, (IRegistry)p.GetValue(null)!);
-                    continue;
-                }
+                //if (genericDefinition == typeof(GroupRegistry<>))
+                //{
+                //    groupRegistries.Add(p.Name, (IRegistry)p.GetValue(null)!);
+                //    continue;
+                //}
             }
         }
 

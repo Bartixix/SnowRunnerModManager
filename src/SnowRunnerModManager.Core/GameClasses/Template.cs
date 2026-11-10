@@ -1,9 +1,10 @@
 ﻿using System.Text.Json.Serialization;
+using SnowRunnerModManager.Core.GameClasses.Common;
 using SnowRunnerModManager.Utils.Metadata;
 
 namespace SnowRunnerModManager.Core.GameClasses
 {
-    public abstract class Template : IModificationTrackable
+    public abstract class Template : IModificationTrackable, ICommonObject
     {
         private ModificationState _state;
 
@@ -24,13 +25,14 @@ namespace SnowRunnerModManager.Core.GameClasses
         [XMLSpecial(SpecialOp.TagName)]
         public required string Name { get; init; }
 
-        [XMLElement("#_template")]
-        public required Template? Include { get; init; }
-
-        //[XMLElement("", Special = SpecialResolver.AllChildren)]
-        //public required List<TemplateProperty> Properties { get; init; }
+        public Template? TypelessInclude { get; protected set; }
 
         public void SetModified() => State = ModificationState.Modified;
+    }
 
+    public abstract class Template<T> : Template where T : Template<T>
+    {
+        [XMLElement("#_template")]
+        public required T? Include { get { return (T?)TypelessInclude; } set { TypelessInclude = value; } }
     }
 }

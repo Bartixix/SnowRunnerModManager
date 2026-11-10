@@ -1,10 +1,41 @@
-﻿using SnowRunnerModManager.Utils.Metadata;
+﻿using SnowRunnerModManager.Core.GameClasses.Common;
+using SnowRunnerModManager.Utils.Metadata;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace SnowRunnerModManager.Core.GameClasses
 {
-    public abstract class GameObject : IModificationTrackable
+    public abstract class GameObject : IModificationTrackable, ICommonObject
     {
+        [JsonIgnore]
+        [MemberNotNullWhen(true, nameof(_parentContainer))]
+        public bool ParentInitialized { get; private set; } = false;
+
+        private GameContainer? _parentContainer;
+
+        [JsonIgnore]
+        public GameContainer ParentContainer
+        {
+            get
+            {
+                if (ParentInitialized)
+                    return _parentContainer;
+
+                throw new InvalidOperationException();
+            }
+
+            set
+            {
+                if (ParentInitialized)
+                    throw new InvalidOperationException();
+
+                _parentContainer = value;
+                ParentInitialized = true;
+            }
+        }
+
+
+
         private ModificationState _state;
 
         [JsonIgnore]

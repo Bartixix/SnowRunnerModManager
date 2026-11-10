@@ -1,7 +1,7 @@
 ﻿using SnowRunnerModManager.App.CustomContorls;
 using SnowRunnerModManager.App.EditorUserControls;
 using SnowRunnerModManager.App.Windows;
-using SnowRunnerModManager.Core.GameClasses;
+using SnowRunnerModManager.Core.GameClasses.Common;
 using SnowRunnerModManager.Core.Helpers;
 using SnowRunnerModManager.Utils.Metadata;
 using System;

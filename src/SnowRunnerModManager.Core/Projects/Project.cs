@@ -1,5 +1,7 @@
 ﻿using SnowRunnerModManager.Core.Classes;
+using SnowRunnerModManager.Core.GameClasses;
 using SnowRunnerModManager.Core.GameClasses.Objects;
+using SnowRunnerModManager.Core.GameClasses.Templates;
 using SnowRunnerModManager.Core.Helpers;
 using SnowRunnerModManager.Infrastructure.IO;
 using System;
@@ -33,11 +35,20 @@ namespace SnowRunnerModManager.Core.Projects
         public string RootFolder { get; }
         public string GameFolder { get; }
 
-        public GroupRegistry<Engine> Engines { get; } = new();
-        public GroupRegistry<Gearbox> Gearboxes { get; } = new();
-        public GroupRegistry<Wheel> Wheels { get; } = new();
-        public Registry<Truck> Trucks { get; } = new();
-        public Registry<Wheel> WheelTemplates { get; } = new();
+        //public GroupRegistry<Engine> Engines { get; } = new();
+        //public GroupRegistry<Gearbox> Gearboxes { get; } = new();
+        //public GroupRegistry<TruckTire> Wheels { get; } = new();
+        //public Registry<Truck> Trucks { get; } = new();
+        //public Registry<> WheelTemplates { get; } = new();
+
+        public Registry<GameContainer<Engine>> Engines { get; } = new();
+        public Registry<GameContainer<Gearbox>> Gearboxes { get; } = new();
+        public Registry<GameContainer<TruckTire>> Tires { get; } = new();
+        public Registry<GameContainer<Truck>> Trucks { get; } = new();
+
+        public Registry<TruckTireTemplate> TireTemplates { get; } = new();
+        public Registry<WheelFrictionTemplate> FrictionTemplates { get; } = new();
+
 
         public string InitialPath { get; }
 

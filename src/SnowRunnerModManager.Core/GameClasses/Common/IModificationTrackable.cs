@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SnowRunnerModManager.Core.GameClasses
+namespace SnowRunnerModManager.Core.GameClasses.Common
 {
     public enum ModificationState
     {

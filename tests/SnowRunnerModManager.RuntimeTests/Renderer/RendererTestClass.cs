@@ -1,4 +1,4 @@
-﻿using SnowRunnerModManager.Core.GameClasses;
+﻿using SnowRunnerModManager.Core.GameClasses.Common;
 using SnowRunnerModManager.Core.Projects;
 using SnowRunnerModManager.Utils.Metadata;
 

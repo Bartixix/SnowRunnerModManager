@@ -1,6 +1,7 @@
 ﻿using SnowRunnerModManager.Core.Projects;
 using SnowRunnerModManager.Utils.Metadata;
 using SnowRunnerModManager.Core.Classes;
+using SnowRunnerModManager.Core.GameClasses.Templates;
 
 namespace SnowRunnerModManager.Core.GameClasses.Objects
 {
@@ -26,19 +27,19 @@ namespace SnowRunnerModManager.Core.GameClasses.Objects
 
         [EditorField("First axle AWD", 0)]
         [XMLTemplate(TemplateType.Wheel, "FrontWheel#Torque", "FirstAxle#Torque")]
-        public required Templatable<TorqueMode> FirstAWD { get; set; }
+        public required Templatable<TorqueMode, WheelTemplate> FirstAWD { get; set; }
 
         [EditorField("Second axle AWD", 1)]
-        [XMLTemplate(TemplateType.Wheel, "Wheel>SecondAxle#Torque")]
-        public required Templatable<TorqueMode> SecondAWD { get; set; }
+        [XMLTemplate(TemplateType.Wheel, "SecondAxle#Torque")]
+        public required Templatable<TorqueMode, WheelTemplate> SecondAWD { get; set; }
 
         [EditorField("Third axle AWD", 2)]
-        [XMLTemplate(TemplateType.Wheel, "Wheel>MiddleAxle#Torque")]
-        public required Templatable<TorqueMode> ThirdAWD { get; set; }
+        [XMLTemplate(TemplateType.Wheel, "MiddleAxle#Torque")]
+        public required Templatable<TorqueMode, WheelTemplate> ThirdAWD { get; set; }
 
         [EditorField("Rear axle AWD", 3)]
         [XMLTemplate(TemplateType.Wheel, "RearWheel#Torque", "RearAxle#Torque")]
-        public required Templatable<TorqueMode> RearAWD { get; set; }
+        public required Templatable<TorqueMode, WheelTemplate> RearAWD { get; set; }
 
         [PropertyIgnoreIf(false, nameof(FirstAWD))]
         [XMLTemplate(TemplateType.Wheel, "%HasAxle@1")]

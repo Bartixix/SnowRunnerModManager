@@ -3,7 +3,7 @@ using SnowRunnerModManager.Utils.Metadata;
 
 namespace SnowRunnerModManager.Core.GameClasses.Templates
 {
-    public class WheelFrictionTemplate : Template
+    public class WheelFrictionTemplate : Template<WheelFrictionTemplate>
     {
         [XMLElement("#$")]
         public required double BodyFrictionAsphalt { get; init; }

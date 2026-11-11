@@ -52,9 +52,9 @@ namespace SnowRunnerModManager.Core.Projects
         {
             Registry<TruckTire> reg = new();
 
-            reg.Add(new() { Name = "t1", Origin = "", BodyFriction = new(0), BodyFrictionAsphalt = new(0), Price = 0, StateInit = ModificationState.Original, SubstanceFriction = new(0), UnlockByRank = 0, UnlockByExploration = false });
-            reg.Add(new() { Name = "t2", Origin = "", BodyFriction = new(0), BodyFrictionAsphalt = new(0), Price = 0, StateInit = ModificationState.Original, SubstanceFriction = new(0), UnlockByRank = 0, UnlockByExploration = false });
-            reg.Add(new() { Name = "t3", Origin = "", BodyFriction = new(0), BodyFrictionAsphalt = new(0), Price = 0, StateInit = ModificationState.Original, SubstanceFriction = new(0), UnlockByRank = 0, UnlockByExploration = false });
+            reg.Add(new() { Name = "t1", Origin = "", BodyFriction = new("", 0), BodyFrictionAsphalt = new("", 0), Price = 0, StateInit = ModificationState.Original, SubstanceFriction = new("", 0), UnlockByRank = 0, UnlockByExploration = false });
+            reg.Add(new() { Name = "t2", Origin = "", BodyFriction = new("", 0), BodyFrictionAsphalt = new("", 0), Price = 0, StateInit = ModificationState.Original, SubstanceFriction = new("", 0), UnlockByRank = 0, UnlockByExploration = false });
+            reg.Add(new() { Name = "t3", Origin = "", BodyFriction = new("", 0), BodyFrictionAsphalt = new("", 0), Price = 0, StateInit = ModificationState.Original, SubstanceFriction = new("", 0), UnlockByRank = 0, UnlockByExploration = false });
 
             return reg; ;
         })();

@@ -101,7 +101,10 @@ namespace SnowRunnerModManager.Utils.Metadata
 
             for (int i = 0; i < path.Length; i++)
             {
-                sb.Append($"{enumStr}>{path[i]}");
+                if (!path[i].StartsWith('\0'))
+                    sb.Append($"{enumStr}>{path[i]}");
+                else
+                    sb.Append($"{enumStr}{path[i][1..]}");
 
                 if (i < path.Length - 1)
                     sb.Append("||");

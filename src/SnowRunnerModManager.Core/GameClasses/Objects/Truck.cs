@@ -42,19 +42,19 @@ namespace SnowRunnerModManager.Core.GameClasses.Objects
         public required Templatable<TorqueMode, WheelTemplate> RearAWD { get; set; }
 
         [PropertyIgnoreIf(false, nameof(FirstAWD))]
-        [XMLTemplate(TemplateType.Wheel, "%HasAxle@1")]
+        [XMLTemplate(TemplateType.Wheel, "\0%HasAxle@1")]
         public required bool HasFirstAxle { get; init; }
 
         [PropertyIgnoreIf(false, nameof(SecondAWD))]
-        [XMLTemplate(TemplateType.Wheel, "%HasAxle@2")]
+        [XMLTemplate(TemplateType.Wheel, "\0%HasAxle@2")]
         public required bool HasSecondAxle { get; init; }
 
         [PropertyIgnoreIf(false, nameof(ThirdAWD))]
-        [XMLTemplate(TemplateType.Wheel, "%HasAxle@3")]
+        [XMLTemplate(TemplateType.Wheel, "\0%HasAxle@3")]
         public required bool HasThirdAxle { get; init; }
 
         [PropertyIgnoreIf(false, nameof(RearAWD))]
-        [XMLTemplate(TemplateType.Wheel, "%HasAxle@4")]
+        [XMLTemplate(TemplateType.Wheel, "\0%HasAxle@4")]
         public required bool HasRearAxle { get; init; }
 
         [EditorField("Diff lock type", 4)]

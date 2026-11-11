@@ -55,8 +55,6 @@ namespace SnowRunnerModManager.Core.Helpers
 
         public static string? GetFileName(string origin)
         {
-            if (!Path.GetDirectoryName(origin)!.Contains(Constants.Trucks))
-                return null;
             return Path.GetFileNameWithoutExtension(origin);
         }
         public static string GetRelativePath(string origin)

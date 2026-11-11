@@ -105,7 +105,7 @@ namespace SnowRunnerModManager.Core.GameParsers
             //if (!LowLevelParse(container, obj, origin, false))
             //    return null;
 
-            if (!LowLevelParse(PropertyIgnoreIfs, gc, container, obj, origin, false))
+            if (!TryParseIgnoreIfs(gc, container, obj, origin))
                 return null;
 
             if (!LowLevelParse(XMLSpecials, gc, container, obj, origin))
@@ -128,23 +128,54 @@ namespace SnowRunnerModManager.Core.GameParsers
 
             foreach (KeyValuePair<string, ParserTree> tree in steps)
             {
+                Type type = tree.Value.Parameter.PropertyType;
+
                 if (toIgnore.Contains(tree.Value.Parameter.Name))
                     continue;
 
-                if (!tree.Value.TryParse(container, gc, tree.Value.Parameter.PropertyType, origin, out object? tempObj))
+                if (!tree.Value.TryParse(container, gc, type, origin, out object? tempObj))
                 {
                     if (tree.Value.XMLPath.DefaultValue == null)
                         return false;
 
                     tempObj = tree.Value.XMLPath.DefaultValue;
                 }
+                if (tempObj != null)
+                    tempObj = ParserHelper.Parse(type, tempObj);
 
-                tempObj = ParserHelper.Parse(tree.Value.Parameter.PropertyType, tempObj);
+                else if (!type.IsAssignableTo(typeof(Template)))
+                    return false;
 
                 tree.Value.Parameter.SetValue(obj, tempObj);
             }
 
             return true;
+        }
+
+        private bool TryParseIgnoreIfs<TParent, TChild>(GameContainer? gc, XBase<TParent, TChild> container, object obj, string origin)
+            where TParent : XBase<TParent, TChild>
+            where TChild : XBase<TParent, TChild>
+        {
+
+            ImmutableDictionary<string, ParserTree> elemetnts = PropertyIgnoreIfs.Where(s => s.Value.Parameter.GetCustomAttribute<XMLElement>() != null).ToImmutableDictionary(t => t.Key, t => t.Value);
+            ImmutableDictionary<string, ParserTree> templates = PropertyIgnoreIfs.Where(s => s.Value.Parameter.GetCustomAttribute<XMLTemplate>() != null).ToImmutableDictionary(t => t.Key, t => t.Value);
+
+
+            if (!LowLevelParse(elemetnts, gc, container, obj, origin, false))
+                return false;
+
+            XTemplateRoot? templateRoot = container.Document.TemplateRoot;
+
+            if (templateRoot == null && templates.Count > 0)
+                return false;
+
+            if (templateRoot == null && templates.Count == 0)
+                return true;
+
+            if (templateRoot != null && LowLevelParse(templates, gc, templateRoot, obj, origin, false))
+                return true;
+
+            return false;
         }
 
         private bool ResolveTemplates(ImmutableDictionary<string, ParserTree> steps, GameContainer? gc, object obj, bool accountForIgnores = true)
@@ -159,28 +190,26 @@ namespace SnowRunnerModManager.Core.GameParsers
                 Type templateType = tree.Value.Parameter.PropertyType;
 
                 if (templateType.GetGenericTypeDefinition() != typeof(Templatable<,>))
-                    continue;
+                    return false;
 
-                if (!tree.Value.TryResolveTemplate(gc, templateType.GetGenericArguments()[0], out Template? template))
-                    continue;
+                if (!tree.Value.TryResolveTemplate(gc, templateType.GetGenericArguments()[1], out Template? template))
+                    return false;
 
-                object? templatable = Activator.CreateInstance(templateType, template);
+                object? templatable = Activator.CreateInstance(templateType, tree.Key, template);
 
                 if (templatable == null)
-                    continue;
+                    return false;
 
                 PropertyInfo? isOverridable = templateType.GetProperty("IsOverridable");
                 if (isOverridable == null)
-                    continue;
+                    return false;
 
                 isOverridable.SetValue(templatable, false);
 
                 tree.Value.Parameter.SetValue(obj, templatable);
-
-                return true;
             }
 
-            return false;
+            return true;
         }
 
         private HashSet<string> GetIgnores(object obj, bool accountForIgnores) => accountForIgnores ? PropertyIgnoreIf.FindPropertiesToIgnore(ObjectType, obj) : [];

@@ -19,6 +19,7 @@ using SnowRunnerModManager.Infrastructure.Xml;
 using SnowRunnerModManager.Core.GameClasses.Templates;
 using System.Linq;
 using SnowRunnerModManager.Core.GameClasses;
+using Microsoft.VisualBasic;
 
 namespace SnowRunnerModManager.App.UserContorls
 {
@@ -163,6 +164,7 @@ namespace SnowRunnerModManager.App.UserContorls
         {
             string TrP = "E:\\Coding\\snowrnn-mod\\test-load\\truck_n.xml";
 
+            Project p = Project.CreateDummy();
 
             XDocument doc = XDocument.Load(TrP);
 
@@ -170,9 +172,15 @@ namespace SnowRunnerModManager.App.UserContorls
 
             List<XTemplate> templates = doc.TemplateRoot!.Element("Wheel")!.Children;
 
-            GameContainer<Truck> gc = new("");
+            List<WheelTemplate> wt = [.. templates.Select(t => (WheelTemplate)wtp.Parse(t, null, TrP)!)];
 
-            List<WheelTemplate> wt = [.. templates.Select(t => (WheelTemplate)wtp.Parse(t, gc, TrP)!)];
+            GameContainer<Truck> gc = new(TrP);
+            gc.Templates.Add(typeof(WheelTemplate), wt.ToDictionary(t => t.Name, t => (Template)t));
+
+            XElementBase truckE = doc.ElementRoot!;
+
+            Parser tp = Parser.GetParser<Truck>();
+            Truck truck = (Truck)tp.Parse(truckE, gc, TrP)!;
         }
     }
 }

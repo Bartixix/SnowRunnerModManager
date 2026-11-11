@@ -83,7 +83,13 @@ namespace SnowRunnerModManager.Core.GameParsers
             if (Termination == TerminationType.Tag)
                 return false;
 
-            List<TChild> elements = document.QuerySelector([.. Steps]);
+            List<XBase<TParent, TChild>> elements = [];
+
+            if (Steps.Length > 0)
+                elements = [.. document.QuerySelector([.. Steps])];
+            else
+                elements.Add(document);
+
             if (elements.Count == 0)
                 return false;
 
@@ -109,7 +115,7 @@ namespace SnowRunnerModManager.Core.GameParsers
             return false;
         }
 
-        public bool TryGetClassValue<TParent, TChild>(XBase<TParent, TChild> document, GameContainer gc, Type objectType, string origin, [NotNullWhen(true)] out object? value)
+        public bool TryGetClassValue<TParent, TChild>(XBase<TParent, TChild> document, GameContainer? gc, Type objectType, string origin, [NotNullWhen(true)] out object? value)
             where TParent : XBase<TParent, TChild>
             where TChild : XBase<TParent, TChild>
         {
@@ -123,7 +129,7 @@ namespace SnowRunnerModManager.Core.GameParsers
             return LowLevelParse(newRoot, gc, objectType, origin, out value);
         }
 
-        public bool TryGetClassValueList<TParent, TChild>(XBase<TParent, TChild> container, GameContainer gc, Type objectType, string origin, [NotNullWhen(true)] out IList? value)
+        public bool TryGetClassValueList<TParent, TChild>(XBase<TParent, TChild> container, GameContainer? gc, Type objectType, string origin, [NotNullWhen(true)] out IList? value)
             where TParent : XBase<TParent, TChild>
             where TChild : XBase<TParent, TChild>
         {
@@ -145,7 +151,7 @@ namespace SnowRunnerModManager.Core.GameParsers
             return true;
         }
 
-        private static bool LowLevelParse<TParent, TChild>(XBase<TParent, TChild> root, GameContainer gc, Type objectType, string origin, [NotNullWhen(true)] out object? value)
+        private static bool LowLevelParse<TParent, TChild>(XBase<TParent, TChild> root, GameContainer? gc, Type objectType, string origin, [NotNullWhen(true)] out object? value)
             where TParent : XBase<TParent, TChild>
             where TChild : XBase<TParent, TChild>
         {

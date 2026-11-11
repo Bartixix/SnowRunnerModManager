@@ -9,7 +9,7 @@ namespace SnowRunnerModManager.Core.GameClasses
         public string Name { get; } = name;
 
         [XMLRoot(RootElement.Template)]
-        public Dictionary<TemplateType, Dictionary<string, Template>> Templates { get; } = [];
+        public Dictionary<Type, Dictionary<string, Template>> Templates { get; } = [];
     }
 
     public class GameContainer<T>(string name) : GameContainer(name) where T : GameObject

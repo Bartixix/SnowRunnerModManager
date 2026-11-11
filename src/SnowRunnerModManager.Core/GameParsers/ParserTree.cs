@@ -1,5 +1,7 @@
 ﻿using SnowRunnerModManager.Core.Classes;
 using SnowRunnerModManager.Core.GameClasses;
+using SnowRunnerModManager.Core.Helpers;
+using SnowRunnerModManager.Core.Projects;
 using SnowRunnerModManager.Infrastructure.Xml;
 using SnowRunnerModManager.Utils.Metadata;
 using System;
@@ -36,7 +38,7 @@ namespace SnowRunnerModManager.Core.GameParsers
             Paths = [.. paths];
         }
 
-        public bool TryParse<TParent, TChild>(XBase<TParent, TChild> container, GameContainer? gc, Type type, string origin, [NotNullWhen(true)] out object? obj)
+        public bool TryParse<TParent, TChild>(XBase<TParent, TChild> container, GameContainer? gc, Type type, string origin, out object? obj)
             where TParent : XBase<TParent, TChild>
             where TChild : XBase<TParent, TChild>
         {
@@ -46,43 +48,93 @@ namespace SnowRunnerModManager.Core.GameParsers
                 if (TryEvalPath(container, gc, Paths[i], type, origin, out obj))
                     return true;
 
+
             return false;
         }
 
-        public bool TryEvalPath<TParent, TChild>(XBase<TParent, TChild> container, GameContainer? gc, ParserPath path, Type type, string origin, [NotNullWhen(true)] out object? obj)
+        public bool TryEvalPath<TParent, TChild>(XBase<TParent, TChild> container, GameContainer? gc, ParserPath path, Type type, string origin, out object? obj)
             where TParent : XBase<TParent, TChild>
             where TChild : XBase<TParent, TChild>
         {
             obj = null;
 
-
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Templatable<,>))
-                ;
+            {
+                path.TryGetSingleValue(container, origin, out string? value);
 
-            if (type.IsAssignableTo(typeof(Template)))
-                ;
+                if (!TryResolveTemplatable(gc, type, value, out obj))
+                    return false;
 
-            if (type == typeof(List<string>) && XMLPath.ListSeparator != null)
-                ;
+                return true;
+            }
 
-            if (type.IsClass && type != typeof(string))
-                ;
+            else if (type.IsAssignableTo(typeof(Template)))
+            {
+                //if (!TryResolveTemplate(gc, type, out Template? temp))
+                //    return false;
 
-            if (!type.IsClass || type == typeof(string))
-                ;
+                _ = TryResolveTemplate(gc, type, out Template? temp);
+
+                obj = temp;
+                return true;
+            }
+
+
+            else if (type == typeof(List<string>) && XMLPath.ListSeparator != null)
+            {
+                if (!path.TryGetSingleValue(container, origin, out string? value))
+                    return false;
+
+                List<string> list = [.. value.Split(XMLPath.ListSeparator)];
+                obj = list;
+
+                return true;
+            }
+
+
+            else if (type.IsClass && type != typeof(string))
+            {
+                if (XMLPath.Special == SpecialResolver.MultipleValues && path.TryGetClassValueList(container, gc, type, origin, out IList? list))
+                {
+                    obj = list;
+                    return true;
+                }
+
+                if (XMLPath.Special != SpecialResolver.MultipleValues && path.TryGetClassValue(container, gc, type, origin, out obj))
+                    return true;
+            }
+
+
+            else if (!type.IsClass || type == typeof(string))
+            {
+                if (!path.TryGetSingleValue(container, origin, out string? value))
+                    return false;
+
+                obj = value;
+                return true;
+            }
 
             return false;
         }
 
-        // implement global templates
         public bool TryResolveTemplate(GameContainer? gc, Type type, [NotNullWhen(true)] out Template? template)
         {
             template = null;
 
-            if (!Enum.TryParse(Paths.First().Steps.First(), out TemplateType tType))
-                return false;
+            if (gc != null && TryGetLocalTemplate(gc, type, out template))
+                return true;
 
-            if (!gc.Templates.TryGetValue(tType, out Dictionary<string, Template>? templates))
+            if (TryGetGlobalTemplate(type, out template))
+                return true;
+
+            return false;
+        }
+
+        public bool TryGetLocalTemplate(GameContainer gc, Type type, [NotNullWhen(true)] out Template? template)
+        {
+            template = null;
+
+            if (!gc.Templates.TryGetValue(type, out Dictionary<string, Template>? templates))
                 return false;
 
             foreach (ParserPath path in Paths)
@@ -101,6 +153,89 @@ namespace SnowRunnerModManager.Core.GameParsers
             }
 
             return false;
+        }
+
+        public bool TryGetGlobalTemplate(Type type, [NotNullWhen(true)] out Template? template)
+        {
+            template = null;
+            Type dbType = typeof(ActiveProject);
+
+            PropertyInfo[] properties = dbType.GetProperties(BindingFlags.Public | BindingFlags.Static);
+            IRegistry? registry = null;
+
+            foreach (PropertyInfo property in properties)
+            {
+                if (!property.CanRead)
+                    continue;
+
+                if (!property.PropertyType.IsGenericType)
+                    continue;
+
+                Type pType = property.PropertyType.GetGenericArguments()[0];
+
+                if (pType != type)
+                    continue;
+
+                if (property.GetValue(null) is IRegistry reg)
+                {
+                    registry = reg;
+                    break;
+                }
+
+                return false;
+            }
+
+            if (registry == null)
+                return false;
+
+            foreach (ParserPath path in Paths)
+            {
+                if (!registry.TryGet(path.Steps[0], out object? temp))
+                    continue;
+
+                if (temp is not Template)
+                    return false;
+
+                template = (Template)temp;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryResolveTemplatable(GameContainer? gc, Type type, string? singleValue, [NotNullWhen(true)] out object? obj)
+        {
+            obj = null;
+
+            Type tValue = type.GetGenericArguments()[0];
+            Type tTemplate = type.GetGenericArguments()[1];
+
+            _ = TryResolveTemplate(gc, tTemplate, out Template? template);
+
+            if (singleValue == null)
+            {
+                if (template == null)
+                    return false;
+
+                obj = Activator.CreateInstance(type, Parameter.Name, template);
+
+                if (obj == null)
+                    return false;
+
+                return true;
+            }
+
+            object tempObj = ParserHelper.Parse(tValue, singleValue);
+
+            if (template == null)
+                obj = Activator.CreateInstance(type, Parameter.Name, tempObj);
+            else
+                obj = Activator.CreateInstance(type, Parameter.Name, tempObj, template);
+
+            if (obj == null)
+                return false;
+
+            return true;
         }
     }
 }

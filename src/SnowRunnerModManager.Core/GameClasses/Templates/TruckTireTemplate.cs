@@ -4,7 +4,7 @@ namespace SnowRunnerModManager.Core.GameClasses.Templates
 {
     public class TruckTireTemplate : Template<TruckTireTemplate>
     {
-        [XMLElement("WheelFriction", DefaultValue = null)]
+        [XMLElement("WheelFriction")]
         public required WheelFrictionTemplate? Friction { get; set; } = null;
     }
 }
